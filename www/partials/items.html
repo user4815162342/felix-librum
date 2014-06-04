@@ -15,6 +15,5 @@
         <td>{{item.subtitle}}</td>
         <td>{{item.series}}</td>
         <td><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}{{$last ? '' : '; '}}</span></td>
-        
     </tr>
 </table>

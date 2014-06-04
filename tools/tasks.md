@@ -2,7 +2,8 @@ TODO: Write database management tools to manipulate the data in www/data:
 - add: will take a file containing a JSON or MARC record, or the 
 properties for the new item at the command line. If nothing is provided, 
 will prompt user for each name. Do it a little bit more smartly in a TTY, 
-let the user navigate quickly between fields with arrows and tabs.
+let the user navigate quickly between fields with arrows and tabs. Should
+also automatically update the call letters.
 - update: will take a key and changed information, same input as add. Should
 prompt for changes in the same way if nothing specified.
 - delete: will take a key and delete it from the data files, including
@@ -16,3 +17,6 @@ can be 'disabled' without removing their configurations).
 3) Allow for a batch search as well.
 2) For each entry searched, it will process that search against *all*
 of the servers in the configuration, and return a list of results.
+
+TODO: Write a similar tool which can import AR data from the AR Website
+into the database for a given book.
