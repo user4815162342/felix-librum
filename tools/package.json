@@ -1,0 +1,11 @@
+{
+  "name": "library-tools",
+  "version": "0.1.0",
+  "description": "A set of tools for manipulating data for the library web app.",
+  "main": "index.js",
+  "author": "Neil M. Sheldon",
+  "license": "MIT",
+  "dependencies": {
+		"rimraf": "~2.2"
+	}
+}
