@@ -4,6 +4,7 @@
 
 angular.module('myApp.controllers', [])
     .controller('itemsController', ['$scope', '$routeParams', '$filter', '$http', function($scope,$routeParams,$filter,$http) {
+        $scope.loading = true;
       // NOTE: We are doing this here instead of in an 'instant filter'
       // with databinding, because it is much more responsive considering
       // the amount of data we start out with. Although, there may
@@ -15,6 +16,7 @@ angular.module('myApp.controllers', [])
             type: queryType,
             key: searchKey
         }
+        
         
         $http.get('data/items.json').success(function(data) {
             $scope.all = data;
@@ -50,6 +52,7 @@ angular.module('myApp.controllers', [])
                     $scope.items = data;
                     break;
             }
+            $scope.loading = false;
         });
     }])
   .controller('itemDetailController', ['$scope', '$routeParams', '$http', function($scope,$routeParams,$http) {

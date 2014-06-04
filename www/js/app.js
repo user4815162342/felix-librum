@@ -1,8 +1,6 @@
 'use strict';
 
 /* 
- * TODO: In the index files, the main name should be 'name', not 'author', 'title', etc.
- * TODO: The search queries should automatically run when someone presses enter.
  * TODO: The 'author1..3' should probably be an array of names and roles (illustrator, editor, etc.)
  * TODO: May Need to break up lots of results data into smaller chunks for quicker loading. 
  * Probably have to paginate them somehow.

@@ -1,5 +1,9 @@
-<p>Here are the {{items.length}} items which the library owns:</p>
-<table>
+<p ng-show="!loading">The library has {{all.length}} items in its catalog.</p>
+<p ng-show="!loading && items.length && query.type!='all'">{{items.length}} items match your query.</p>
+<p ng-show="!loading && !items.length && query.type">No items match your query.</p>
+<p ng-show="!loading && !items.length && !query.type">Please search using the box to the left.</p>
+<p ng-show="loading">Loading Data...</p>
+<table ng-show="items.length">
     <tr>
         <th>Title</th>
         <th>Subtitle</th>
