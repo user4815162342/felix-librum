@@ -36,6 +36,11 @@
  * www/data/items.json -- contains all data for all items in one file
  * for convenience. 
  * 
+ * NOTE: The following files are no longer written, as they were not
+ * needed for the application after all. However, if they become necessary,
+ * they can be re-enabled by setting the flag variable "outputIndexFiles"
+ * to true.
+ * 
  * www/data/summaries.json -- contains summary data for all items in the
  * catalog. This file will load faster than items.json and still provide
  * information about all items.
@@ -78,6 +83,11 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var events = require('events');
 
+// Set this to true to output a bunch of broken up index files indicated
+// above. This is not necessary for the application, which can survive
+// perfectly well on items.json.
+var outputIndexFiles = false;
+
 /*
  * A mapping of column indexes to internal field names. This would
  * have to be changed if your import file is different.
@@ -105,6 +115,8 @@ var COLUMNS = [
     "status",
     "location"
     ];
+    
+
 
 /*
  * The input files and output directory are hard-coded relative to
@@ -391,10 +403,15 @@ var Database = function() {
         }
         
         queueWrite("Items","items",items);
-        queueWrite("Summaries","summaries",summaries);
-        queueWrite("Titles","titles",titles);
-        queueWrite("Authors","authors",authors);
-        queueWrite("Subjects","subjects",subjects);
+        // NOTE: These aren't being saved anymore, because I don't
+        // actually need these. The speed detriments were in the 
+        // UI layer. 
+        if (outputIndexFiles) {
+            queueWrite("Summaries","summaries",summaries);
+            queueWrite("Titles","titles",titles);
+            queueWrite("Authors","authors",authors);
+            queueWrite("Subjects","subjects",subjects);
+        }
         queue.push(function() {
             console.log("Saving " + items.length + " detail files.");
             process.nextTick(processQueue);
