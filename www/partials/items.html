@@ -1,0 +1,19 @@
+<p>Here are the {{items.length}} items which the library owns:</p>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Subtitle</th>
+        <th>Series</th>
+        <th>Author 1</th>
+        <th>Author 2</th>
+        <th>Author 3</th>
+    </tr>
+    <tr ng-repeat="item in items track by item.key">
+        <td><a href="#/item/{{item.key}}">{{item.title}}</a></td>
+        <td>{{item.subtitle}}</td>
+        <td>{{item.series}}</td>
+        <td>{{item.author1}}</td>
+        <td>{{item.author2}}</td>
+        <td>{{item.author3}}</td>
+    </tr>
+</table>
