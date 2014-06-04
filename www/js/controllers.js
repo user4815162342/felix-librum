@@ -53,6 +53,12 @@ angular.module('myApp.controllers', [])
                     break;
             }
             $scope.loading = false;
+        }).error(function() {
+            // TODO: Should report the error instead of silently failing,
+            // and only do this if the error is a 404.
+          $scope.all = [];
+          $scope.items = [];
+          $scope.loading = false;  
         });
     }])
   .controller('itemDetailController', ['$scope', '$routeParams', '$http', function($scope,$routeParams,$http) {

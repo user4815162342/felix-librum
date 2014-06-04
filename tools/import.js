@@ -20,10 +20,20 @@
  * ## Processing ##
  * 
  * The data from the input file is pulled into an array of objects. Most
- * fields map to simple string values. The "subjects" field is parsed out
- * into an array, with each subject line trimmed. A "key" field is added
- * to each item with a numeric value, calculated by starting at one and
- * incrementing by one for each added item.
+ * fields map to simple string values. 
+ * 
+ * The "author1"..."author3" field is combined into an array of objects
+ * under a property "credits". The objects contain two properties, name
+ * and role. The name property gets the value of the author field, the 
+ * role property gets the string "author". A future version of this
+ * database may support additional roles, such as Illustrator, Editor,
+ * etc.
+ * 
+ * The "subjects" field is parsed out into an array, with each subject line trimmed. 
+ * 
+ * A numeric "key" field is added to each item with a numeric value, 
+ * calculated by starting at one and incrementing by one for each added 
+ * item.
  * 
  * The data is then split into a number of files.
  * 
@@ -275,10 +285,26 @@ var parse = function(input) {
     });
     
     handleToken('FIELD',function(value,line,info) {
-        if (COLUMNS[currentField] === "subjects") {
-            currentRow.subjects = parseSubjects(value,line,info);
-        } else {
-            currentRow[COLUMNS[currentField]] = value;
+        switch (COLUMNS[currentField]) {
+            case "subjects":
+                currentRow.subjects = parseSubjects(value,line,info);
+                break;
+            case "author1":
+            case "author2":
+            case "author3":
+                if (!currentRow.people) {
+                    currentRow.people = [];
+                }
+                if (value) {
+                    currentRow.people.push({
+                        role: "author",
+                        name: value
+                    });
+                }
+                break;
+            default:
+                currentRow[COLUMNS[currentField]] = value;
+                break;
         }
         currentField += 1;
         expect = ["CRLF","TAB"];

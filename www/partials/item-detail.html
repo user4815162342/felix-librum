@@ -9,12 +9,8 @@
     <dd>{{item.volume}}</dd>
     <dt>Copy Number:</dt>
     <dd>{{item.copyNumber}}</dd>
-    <dt>Author 1:</dt>
-    <dd>{{item.author1}}</dd>
-    <dt>Author 2:</dt>
-    <dd>{{item.author2}}</dd>
-    <dt>Author 3:</dt>
-    <dd>{{item.author3}}</dd>
+    <dt>Authors:</dt>
+    <dd><ul><li ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}</li></ul></dd>
     <dt>Subjects:</dt>
     <dd><ul><li ng-repeat="subject in item.subjects track by $index">{{subject}}</li></ul></dd>
     <dt>Location:</dt>
