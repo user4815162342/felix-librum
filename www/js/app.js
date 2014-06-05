@@ -4,6 +4,8 @@
  * TODO: Need to clean up the user interface quite a bit.
  * - sidebar should actually be on the side.
  * - layout should look more professional.
+ * - should be a 'header/footer/sidebar/content' layout, with the 
+ * scrollbars only appearing in the content division.
  * - Grid should be sortable, possibly filterable.
  * - item detail should be arranged a little more nicely to group
  * information together into what's important.
