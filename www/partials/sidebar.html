@@ -1,5 +1,8 @@
-<p><input ng-model="query.key"></p>
-<p><a href="#/items/title/{{query.key}}">Search By Title</a></p>
-<p><a href="#/items/author/{{query.key}}">Search By Author</a></p>
-<p><a href="#/items/subject/{{query.key}}">Search By Subject</a></p>
-<p></p><a href="#/items/all">Browse All</a>(May take a long time to load)</p>
+<div ng-controller="sidebarController">
+    <p>
+        <input ng-model="queryText">
+        <select ng-model="queryType" ng-options="value.type as value.label for value in queryTypes"></select>
+        <a href="#/items/{{queryType}}/{{queryText}}">Search</a>
+    </p>
+    <p><a href="#/items/all">Browse All</a>(May take a long time to load)</p>
+</div>
