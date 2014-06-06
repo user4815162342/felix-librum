@@ -9,7 +9,7 @@ angular.module('myApp.controllers', [])
         $scope.queryTypes = libraryQuery.queryTypes;
 
     }])
-    .controller('itemsController', ['$scope', '$routeParams', '$filter', '$http', 'libraryQueryFilter', function($scope,$routeParams,$filter,$http,libraryQuery) {
+    .controller('itemsController', ['$scope', '$routeParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', function($scope,$routeParams,$filter,$http,libraryQuery,ngTableParams) {
         $scope.loading = true;
       
         $scope.queryType = $routeParams.queryType;
@@ -22,6 +22,26 @@ angular.module('myApp.controllers', [])
         $http.get('data/items.json').success(function(data) {
             $scope.all = data;
             $scope.items = libraryQuery(data,$scope.queryType,$scope.queryText);
+            // TODO: With the new table component, the display works a lot
+            // more quickly. I can very possibly do the filtering internally
+            // now. Except I want to keep the URL anyway, to make it
+            // easier to share.
+            
+            $scope.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                count: 10
+            }, {
+                total: $scope.items.length, // length of data
+                getData: function($defer, params) {
+                    // use build-in angular filter
+                    var orderedData = params.sorting() ?
+                                        $filter('orderBy')($scope.items, params.orderBy()) :
+                                        $scope.items;
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            }); 
+            
+            
             $scope.loading = false;
         }).error(function() {
             // TODO: Should report the error instead of silently failing,

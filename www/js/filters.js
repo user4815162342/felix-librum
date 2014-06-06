@@ -3,6 +3,9 @@
 /* Filters */
 
 angular.module('myApp.filters', []).
+// TODO: The 'match' functions should just be functions which return
+// true or false if the object matches. That makes implementation of
+// allMatch and libraryQuery a little easier.
     filter('titleMatch', function() {
         return function(libraryItems,queryText) {
             queryText = queryText && queryText.toLowerCase();

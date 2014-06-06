@@ -3,17 +3,11 @@
 <p ng-show="!loading && !items.length && queryType">No items match your query.</p>
 <p ng-show="!loading && !items.length && !queryType">Please search using the box to the left.</p>
 <p ng-show="loading">Loading Data...</p>
-<table ng-show="items.length">
-    <tr>
-        <th>Title</th>
-        <th>Subtitle</th>
-        <th>Series</th>
-        <th>Authors</th>
-    </tr>
-    <tr ng-repeat="item in items track by item.key">
-        <td><a href="#/item/{{queryType}}/{{queryText}}/{{item.key}}">{{item.title}}</a></td>
-        <td>{{item.subtitle}}</td>
-        <td>{{item.series}}</td>
-        <td><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}{{$last ? '' : '; '}}</span></td>
+<table ng-table="tableParams" class="table" ng-show="items.length">
+    <tr ng-repeat="item in $data">
+        <td data-title="'Title'" sortable="'title'"><a href="#/item/{{queryType}}/{{queryText}}/{{item.key}}">{{item.title}}</a></td>
+        <td data-title="'Subtitle'" sortable="'subtitle'">{{item.subtitle}}</td>
+        <td data-title="'Series'" sortable="'series'">{{item.series}}</td>
+        <td  data-title="'Authors'" sortable="'authors'"><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}{{$last ? '' : '; '}}</span></td>
     </tr>
 </table>

@@ -1,8 +1,14 @@
 'use strict';
 
 /* 
+ * TODO: Fixing the grid, it looks nice, but there are still some
+ * style problems. Number one is that the column sizes move all over
+ * the place.
+ * TODO: Can't sort correctly by author. Maybe we need to have an
+ * 'author1', 'author2', etc. set of fields anyway. 
  * TODO: Need to clean up the user interface quite a bit.
- * - sidebar should actually be on the side.
+ * - sidebar should actually be on the side. (Actually, maybe, it
+ * should go in the header, since it's not all that complicated)
  * - layout should look more professional.
  * - should be a 'header/footer/sidebar/content' layout, with the 
  * scrollbars only appearing in the content division.
@@ -10,6 +16,8 @@
  * - item detail should be arranged a little more nicely to group
  * information together into what's important.
  * TODO: Need Loading animations 
+ * TODO: Go through bower dependencies and figure out if we have
+ * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are.
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
@@ -34,6 +42,10 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
   'ngRoute',
+  // NOTE: ng-grid is part of angular UI, but the current version depends on jQuery, which I don't want.
+  // This one seems to work, though.
+  'ngTable',
+  'ui.bootstrap',
   'myApp.filters',
   'myApp.services',
   'myApp.directives',
