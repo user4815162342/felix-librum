@@ -1,20 +1,17 @@
 'use strict';
 
 /* 
- * TODO: Fixing the grid, it looks nice, but there are still some
- * style problems. Number one is that the column sizes move all over
- * the place.
  * TODO: Can't sort correctly by author. Maybe we need to have an
- * 'author1', 'author2', etc. set of fields anyway. 
- * TODO: Need to clean up the user interface quite a bit.
- * - sidebar should actually be on the side. (Actually, maybe, it
- * should go in the header, since it's not all that complicated)
- * - layout should look more professional.
- * - should be a 'header/footer/sidebar/content' layout, with the 
- * scrollbars only appearing in the content division.
- * - Grid should be sortable, possibly filterable.
- * - item detail should be arranged a little more nicely to group
- * information together into what's important.
+ * 'author1', 'author2', etc. set of fields anyway. Or, sorting should
+ * be done based on only the first author.
+ * TODO: UI tweaks: we need some margins in a few places, not sure if
+ * there's more stuff.
+ * TODO: Need to make the item details page look nicer. Group the fields
+ * together.
+ * TODO: I think we can clean up the controller code a little bit for
+ * the items page. We might be able to do filtering internally, and
+ * use angular's location service to change query parameters instead
+ * of routing to create a permalink.
  * TODO: Need Loading animations 
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.

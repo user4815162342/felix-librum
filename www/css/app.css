@@ -1,31 +1,107 @@
 /* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+html,body {
+    margin:0;
+    padding:0;
+    height: 100%;
+    width: 100%;
 }
 
-.menu:before {
-  content: "[";
+header #logo {
+    float: left;
 }
 
-.menu:after {
-  content: "]";
+header #search {
+    float: right;
 }
 
-.menu > li {
-  display: inline;
+header:after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 5em;
+    right: 0px;
+    overflow: hidden;
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+.main-content {
+    position: absolute;
+    top: 5em;
+    left: 0px;
+    bottom: 2em;
+    right: 0px;
+    overflow: auto;
 }
 
+.items-message, .item-message {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 2em;
+    overflow: hidden;
+    text-align: center;
+}
+
+.item-content {
+    position: absolute;
+    top: 2em;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: auto;
+}
+
+.items-table thead {
+    position: absolute;
+    top: 2em;
+    left: 0px;
+    height: 2em;
+    right: 0px;
+    overflow: hidden;
+}
+
+.items-table th, td {
+    width: 20em;
+}
+
+.items-table tbody {
+    position: absolute;
+    top: 4em;
+    left: 0px;
+    bottom: 4em;
+    right: 0px;
+    overflow: auto;
+}
+
+.items-table tfoot {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 4em;
+    right: 0px;
+    overflow: hidden;
+}
+
+.items-table tfoot td {
+    width: 80em;
+}
+
+.items-table tfoot .ng-table-pagination {
+    margin: 0px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    height: 2em;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+}

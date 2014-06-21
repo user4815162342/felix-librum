@@ -25,7 +25,9 @@ angular.module('myApp.controllers', [])
             // TODO: With the new table component, the display works a lot
             // more quickly. I can very possibly do the filtering internally
             // now. Except I want to keep the URL anyway, to make it
-            // easier to share.
+            // easier to share. If it's possible to integrate our filter
+            // into the table, it would be great. But, if not, our
+            // filter should be able to 'refresh' the table.
             
             $scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
