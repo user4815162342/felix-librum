@@ -8,11 +8,10 @@ angular.module('myApp.filters', []).
 // allMatch and libraryQuery a little easier.
     filter('titleMatch', function() {
         return function(libraryItems,queryText) {
-            queryText = queryText && queryText.toLowerCase();
             if (!queryText) {
-                // A blank search should return no results.
-                return [];
+                return libraryItems.slice(0);
             }
+            queryText = queryText && queryText.toLowerCase();
             var result = [];
             var item;
             for (var i = 0; i < libraryItems.length; i++) {
@@ -28,11 +27,10 @@ angular.module('myApp.filters', []).
     }).
     filter('authorMatch',function() {
         return function(libraryItems,queryText) {
-            queryText = queryText && queryText.toLowerCase();
             if (!queryText) {
-                // A blank search should return no results.
-                return [];
+                return libraryItems.slice(0);
             }
+            queryText = queryText && queryText.toLowerCase();
             var result = [];
             var item;
             for (var i = 0; i < libraryItems.length; i++) {
@@ -49,11 +47,10 @@ angular.module('myApp.filters', []).
     }).
     filter('subjectMatch',function() {
         return function(libraryItems,queryText) {
-            queryText = queryText && queryText.toLowerCase();
             if (!queryText) {
-                // A blank search should return no results.
-                return [];
+                return libraryItems.slice(0);
             }
+            queryText = queryText && queryText.toLowerCase();
             var result = [];
             var item;
             for (var i = 0; i < libraryItems.length; i++) {
@@ -88,11 +85,10 @@ angular.module('myApp.filters', []).
             "location"
         ];
         return function(libraryItems,queryText) {
-            queryText = queryText && queryText.toLowerCase();
             if (!queryText) {
-                // A blank search should return no results.
-                return [];
+                return libraryItems.slice(0);
             }
+            queryText = queryText && queryText.toLowerCase();
             var result = [];
             var item;
             arraySearch: 
@@ -135,15 +131,11 @@ angular.module('myApp.filters', []).
                             return subjectMatch(libraryItems,queryText);
                         case "all":
                             return allMatch(libraryItems,queryText);
-                        case "everything":
-                            // This is the only way to get everything returned.
-                            return libraryItems.slice(0);
                         default:
-                            queryText = queryText && queryText.toLowerCase();
-                            if (!queryText) {
-                                // A blank search should return no results.
-                                return [];
+                            if (!queryType) {
+                                return libraryItems.slice(0);
                             }
+                            queryText = queryText && queryText.toLowerCase();
                             var options = {};
                             options[queryType] = queryText;
                             return filter(libraryItems,options);
@@ -152,7 +144,7 @@ angular.module('myApp.filters', []).
                 // NOTE: Only 'everything' isn't returned here,
                 // since I don't want it to show in the User interface
                 // except as a special link.
-                result.queryTypes = [
+                result.fields = [
                     {
                         type: "title",
                         label: "Search by title, subtitle, and series"

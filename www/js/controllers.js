@@ -3,62 +3,131 @@
 /* Controllers */
 
 angular.module('myApp.controllers', [])
-    .controller('sidebarController', ['$scope', '$route', 'libraryQueryFilter', function($scope, $route, libraryQuery) {
-        $scope.queryType = $route.current.params.queryType || "";
-        $scope.queryText = $route.current.params.queryText || "";
-        $scope.queryTypes = libraryQuery.queryTypes;
+    .controller('sidebarController', ['$scope', '$location', 'queryParams', 'libraryQueryFilter', function($scope, $location, queryParams, libraryQuery) {
+        // this is a list of the possible values for filter field.
+        $scope.fields = libraryQuery.fields;
+        // this is the filters passed in the URI.
+        $scope.filter = {
+            field: queryParams.filter.field(),
+            text: queryParams.filter.text()
+        }
+        // but we have to watch them to update the URL.
+        $scope.$watch("filter.field",function(newVal) {
+            queryParams.filter.field(newVal);
+        });
+
+        // For the text, we don't want to update it all of the time,
+        // because then we get a change for each keystroke. Just when
+        // the user leaves the text field.
+        $scope.updateFilterText = function() {
+            queryParams.filter.text($scope.filter.text);
+        }
+        // TODO: Consider using a timer to update the text field if
+        // no changes within one second.
+        //$scope.$watch("filter.text",function(newVal) {
+        //    
+        //});
+        
 
     }])
-    .controller('itemsController', ['$scope', '$routeParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', function($scope,$routeParams,$filter,$http,libraryQuery,ngTableParams) {
+    .controller('itemsController', ['$scope', 'queryParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', '$timeout', function($scope,queryParams,$filter,$http,libraryQuery,ngTableParams,$timeout) {
+        // initialize data.
         $scope.loading = true;
-      
-        $scope.queryType = $routeParams.queryType;
-        $scope.queryText = $routeParams.queryText;
-        
-      // NOTE: We are doing this here instead of in an 'instant filter'
-      // with databinding, because it is much more responsive considering
-      // the amount of data we start out with. Although, there may
-      // be better ways to do this.
-        $http.get('data/items.json').success(function(data) {
-            $scope.all = data;
-            $scope.items = libraryQuery(data,$scope.queryType,$scope.queryText);
-            // TODO: With the new table component, the display works a lot
-            // more quickly. I can very possibly do the filtering internally
-            // now. Except I want to keep the URL anyway, to make it
-            // easier to share. If it's possible to integrate our filter
-            // into the table, it would be great. But, if not, our
-            // filter should be able to 'refresh' the table.
-            
-            $scope.tableParams = new ngTableParams({
-                page: 1,            // show first page
-                count: 10
-            }, {
-                total: $scope.items.length, // length of data
-                getData: function($defer, params) {
-                    // use build-in angular filter
-                    var orderedData = params.sorting() ?
-                                        $filter('orderBy')($scope.items, params.orderBy()) :
-                                        $scope.items;
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        // this is a function that helps rebuild the URL for links.
+        $scope.urlParams = queryParams.urlParams;
+        // Load query parameters into appropriate places
+        $scope.filter = {
+            field: queryParams.filter.field(),
+            text: queryParams.filter.text()
+        }
+        $scope.page = {
+            length: queryParams.page.length(),
+            index: queryParams.page.index()
+        }
+        $scope.sort = queryParams.sort();
+
+        // This one basically calls $http.get on the first call, then
+        // rewrites the getData function to just return the data on
+        // future calls. Sort of like caching.
+        var getItems = function(cb) {
+            $http.get('data/items.json').success(function(data) {
+                getItems = function(cb) {
+                    cb(null,libraryQuery(data,$scope.filter.field,$scope.filter.text));
                 }
-            }); 
-            
-            
-            $scope.loading = false;
-        }).error(function() {
-            // TODO: Should report the error instead of silently failing,
-            // and only do this if the error is a 404.
-          $scope.all = [];
-          $scope.items = [];
-          $scope.loading = false;  
-        });
+                $scope.loading = false;
+                $scope.total = data.length;
+                getItems(cb);
+            }).error(function() {
+                // TODO: Should pass the error information to callback.
+                $scope.loading = false;
+                $scope.total = 0;
+              cb("An Error Occurred");
+            });
+        }
+
+        $scope.tableParams = new ngTableParams({
+            page: $scope.page.index,
+            count: $scope.page.length,
+            sorting: $scope.sort
+        }, {
+            total: 0, // length of data
+            getData: function($defer, params) {
+                $scope.page.index = params.page();
+                $scope.page.length = params.count();
+                $scope.sort = params.sorting();
+                queryParams.page.index($scope.page.index);
+                queryParams.page.length($scope.page.length);
+                queryParams.sort($scope.sort);
+                
+                getItems(function(err,data) {
+                    $timeout(function() {
+                        $scope.items = data;
+                        if (err) {
+                            params.total(0);
+                            $defer.resolve([]);
+                        } else {
+                            params.total(data.length);
+                            // use build-in angular filter
+                            var orderedData = $scope.sort ?
+                                                $filter('orderBy')(data, params.orderBy()) :
+                                                data;
+                            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                        }
+                    });
+                });
+                
+            }
+        }); 
+        
+        // We need to force a refresh of the table when the filter changes.
+        $scope.$watch(function() {
+            return queryParams.filter.field()  + "|" + queryParams.filter.text();
+        },function() {
+            $scope.filter.field = queryParams.filter.field();
+            $scope.filter.text = queryParams.filter.text();
+            $scope.tableParams.reload();
+        })
+
     }])
-  .controller('itemDetailController', ['$scope', '$routeParams', '$http', function($scope,$routeParams,$http) {
-      $scope.itemKey = $routeParams.itemKey;
-      $scope.queryType = $routeParams.queryType;
-      $scope.queryText = $routeParams.queryText;
-      $http.get('data/' + $scope.itemKey + '.json').success(function(data) {
+  .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', '$http', function($scope,$routeParams,queryParams,$http) {
+        // this is a function that helps rebuild the URL for links.
+        $scope.urlParams = queryParams.urlParams;
+        $scope.itemKey = $routeParams.itemKey;
+        $http.get('data/' + $scope.itemKey + '.json').success(function(data) {
           $scope.item = data;
-      });
+        });
+
+        // This sets it up so that a change in the search field will
+        // bring us back to the list.
+        var firstCheck = true;
+        $scope.$watch(function() {
+            return queryParams.filter.field()  + "|" + queryParams.filter.text();
+        },function() {
+            if (!firstCheck) {
+                queryParams.redirectToList();
+            } else {
+                firstCheck = false;
+            }
+        })
 
   }]);

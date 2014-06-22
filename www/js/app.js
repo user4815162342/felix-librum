@@ -49,13 +49,10 @@ angular.module('myApp', [
   'myApp.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/items/:queryType?/:queryText?', {templateUrl: 'partials/items.html', controller: 'itemsController'})
-  // The queryType and queryText are passed on through to this. I prefer not
-  // to use cookies or session/localStorage, because 1) It caches usage data
-  // which is unnecessary and not fair to the user and 2) it often causes
-  // unexpected values to pop in when the user isn't expecting it: say it's
-  // been six months since the last search, and these values pop in that
-  // don't make any sense.
-  $routeProvider.when('/item/:queryType?/:queryText?/:itemKey', {templateUrl: 'partials/item-detail.html', controller: 'itemDetailController'});
-  $routeProvider.otherwise({redirectTo: '/items/'});
+    // we set reloadOnSearch to false to prevent refreshing of the view when we update the URL. Pretty much all of the
+    // search params only exist to maintain state for the URL, and they've already been rendered by the time it's
+    // updated (or, in the case of 'detail', they aren't even needed for rendering).
+  $routeProvider.when('/list', {templateUrl: 'partials/items.html', controller: 'itemsController', reloadOnSearch: false})
+  $routeProvider.when('/detail/:itemKey', {templateUrl: 'partials/item-detail.html', controller: 'itemDetailController', reloadOnSearch: false});
+  $routeProvider.otherwise({redirectTo: '/list'});
 }]);

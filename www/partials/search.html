@@ -1,8 +1,6 @@
 <div ng-controller="sidebarController">
     <p>
-        <input ng-model="queryText">
-        <select ng-model="queryType" ng-options="value.type as value.label for value in queryTypes"></select>
-        <a href="#/items/{{queryType}}/{{queryText}}">Search</a>
+        <input ng-model="filter.text" ng-blur="updateFilterText()">
+        <select ng-model="filter.field" ng-options="value.type as value.label for value in fields"></select>
     </p>
-    <p><a href="#/items/everything">Browse All Books</a>(May take a long time to load)</p>
 </div>
