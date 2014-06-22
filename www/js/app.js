@@ -4,17 +4,22 @@
  * TODO: Can't sort correctly by author. Maybe we need to have an
  * 'author1', 'author2', etc. set of fields anyway. Or, sorting should
  * be done based on only the first author.
- * TODO: UI tweaks: we need some margins in a few places, not sure if
- * there's more stuff.
+ * TODO: When you sort by any field value, the data can cause some of the
+ * column width's to shrink, shifts the table columns around uncomfortably.
+ * Need to establish fixed widths for the columns, I think.
  * TODO: When you go back in the history after changing the page number
  * or pagination count, it doesn't refresh with the new data.
  * TODO: Need to make the item details page look nicer. Group the fields
  * together.
  * TODO: Need Loading animations, or some sort of thing on the table
  * itself.
+ * TODO: UI tweaks: we need some margins in a few places, not sure if
+ * there's more stuff.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
- * TODO: Need to figure out what those unknown fields are.
+ * TODO: Need to figure out what those unknown fields are. (They
+ * contain no data, so I guess the answer is stuck on the machine at
+ * school)
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
  * TODO: Need a better name for the application. Suggestions:
