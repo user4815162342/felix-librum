@@ -3,69 +3,46 @@
 /* Filters */
 
 angular.module('myApp.filters', []).
-// TODO: The 'match' functions should just be functions which return
-// true or false if the object matches. That makes implementation of
-// allMatch and libraryQuery a little easier.
     filter('titleMatch', function() {
-        return function(libraryItems,queryText) {
+        return function(item,queryText) {
             if (!queryText) {
-                return libraryItems.slice(0);
+                return true;
             }
             queryText = queryText && queryText.toLowerCase();
-            var result = [];
-            var item;
-            for (var i = 0; i < libraryItems.length; i++) {
-                item = libraryItems[i];
-                if ((item.title.toLowerCase().indexOf(queryText) > -1) ||
-                    (item.subtitle.toLowerCase().indexOf(queryText) > -1) ||
-                    (item.series.toLowerCase().indexOf(queryText) > -1)) {
-                        result.push(item);
-                }
-            }
-            return result;            
+            return !!((item.title.toLowerCase().indexOf(queryText) > -1) ||
+                (item.subtitle.toLowerCase().indexOf(queryText) > -1) ||
+                (item.series.toLowerCase().indexOf(queryText) > -1));
         }
     }).
     filter('authorMatch',function() {
-        return function(libraryItems,queryText) {
+        return function(item,queryText) {
             if (!queryText) {
-                return libraryItems.slice(0);
+                return true;
             }
             queryText = queryText && queryText.toLowerCase();
-            var result = [];
-            var item;
-            for (var i = 0; i < libraryItems.length; i++) {
-                item = libraryItems[i];
-                for (var j = 0; j < item.people.length; j++) {
-                    if (item.people[j].name.toLowerCase().indexOf(queryText) > -1) {
-                        result.push(item);
-                        break;
-                    }
+            for (var j = 0; j < item.people.length; j++) {
+                if (item.people[j].name.toLowerCase().indexOf(queryText) > -1) {
+                    return true;
                 }
             }
-            return result;            
+            return false;            
         }
     }).
     filter('subjectMatch',function() {
-        return function(libraryItems,queryText) {
+        return function(item,queryText) {
             if (!queryText) {
-                return libraryItems.slice(0);
+                return true
             }
             queryText = queryText && queryText.toLowerCase();
-            var result = [];
-            var item;
-            for (var i = 0; i < libraryItems.length; i++) {
-                item = libraryItems[i];
-                for (var j = 0; j < item.subjects.length; j++) {
-                    if (item.subjects[j].toLowerCase().indexOf(queryText) > -1) {
-                        result.push(item);
-                        break;
-                    }
+            for (var j = 0; j < item.subjects.length; j++) {
+                if (item.subjects[j].toLowerCase().indexOf(queryText) > -1) {
+                    return true;
                 }
             }
-            return result;            
+            return false;
         }
     }).
-    filter('allMatch',function() {
+    filter('allMatch',['authorMatchFilter','subjectMatchFilter',function(authorMatch,subjectMatch) {
         var normalFieldsToSearch =  [
             "title",
             "subtitle",
@@ -84,62 +61,65 @@ angular.module('myApp.filters', []).
             "status",
             "location"
         ];
-        return function(libraryItems,queryText) {
+        var specialFilters = [
+            authorMatch,
+            subjectMatch
+        ];
+        // title doesn't need a special filter, since all it does is search in
+        // multiple fields.
+        return function(item,queryText) {
             if (!queryText) {
-                return libraryItems.slice(0);
+                return true;
             }
             queryText = queryText && queryText.toLowerCase();
-            var result = [];
-            var item;
-            arraySearch: 
-            for (var i = 0; i < libraryItems.length; i++) {
-                item = libraryItems[i];
-                authorSearch: 
-                for (var j = 0; j < item.people.length; j++) {
-                    if (item.people[j].name.toLowerCase().indexOf(queryText) > -1) {
-                        result.push(item);
-                        continue arraySearch;
-                    }
-                }
-                subjectSearch: 
-                for (var j = 0; j < item.subjects.length; j++) {
-                    if (item.subjects[j].toLowerCase().indexOf(queryText) > -1) {
-                        result.push(item);
-                        continue arraySearch;
-                    }
-                }
-                normalFieldSearch:
-                for (var j = 0; j < normalFieldsToSearch.length; j++) {
-                    if (item[normalFieldsToSearch[j]].toLowerCase().indexOf(queryText) > -1) {
-                        result.push(item);
-                        continue arraySearch;
-                    }
+            for (var j = 0; j < specialFilters.length; j++) {
+                if (specialFilters[j](item,queryText)) {
+                    return true;
                 }
             }
-            return result;            
+            for (var j = 0; j < normalFieldsToSearch.length; j++) {
+                if (item[normalFieldsToSearch[j]].toLowerCase().indexOf(queryText) > -1) {
+                    return true;
+                }
+            }
+            return false;            
         }
-    }).
+    }]).
     filter('libraryQuery',['titleMatchFilter','authorMatchFilter','subjectMatchFilter','allMatchFilter', 'filterFilter',
             function(titleMatch,authorMatch,subjectMatch,allMatch,filter) {
                 var result = function(libraryItems,queryType,queryText) {
+                    if (!queryType) {
+                        return libraryItems.slice(0);
+                    }
+                    var options;
                     switch (queryType) {
                         case "title":
-                            return titleMatch(libraryItems,queryText);
-                        case "author":
-                            return authorMatch(libraryItems,queryText);
-                        case "subject":
-                            return subjectMatch(libraryItems,queryText);
-                        case "all":
-                            return allMatch(libraryItems,queryText);
-                        default:
-                            if (!queryType) {
-                                return libraryItems.slice(0);
+                            options = function(item) {
+                                return titleMatch(item,queryText);
                             }
+                            break;
+                        case "author":
+                            options = function(item) {
+                                return authorMatch(item,queryText);
+                            }
+                            break;
+                        case "subject":
+                            options = function(item) {
+                                return subjectMatch(item,queryText);
+                            }
+                            break;
+                        case "all":
+                            options = function(item) {
+                                return allMatch(item,queryText);
+                            }
+                            break;
+                        default:
                             queryText = queryText && queryText.toLowerCase();
-                            var options = {};
+                            options = {};
                             options[queryType] = queryText;
-                            return filter(libraryItems,options);
+                            break;
                     }
+                    return filter(libraryItems,options);
                 }
                 // NOTE: Only 'everything' isn't returned here,
                 // since I don't want it to show in the User interface
