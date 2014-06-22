@@ -8,11 +8,8 @@
  * there's more stuff.
  * TODO: Need to make the item details page look nicer. Group the fields
  * together.
- * TODO: I think we can clean up the controller code a little bit for
- * the items page. We might be able to do filtering internally, and
- * use angular's location service to change query parameters instead
- * of routing to create a permalink.
- * TODO: Need Loading animations 
+ * TODO: Need Loading animations, or some sort of thing on the table
+ * itself.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are.
