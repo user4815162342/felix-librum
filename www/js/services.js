@@ -65,11 +65,11 @@ angular.module('myApp.services', []).
               length: function(value) {
                   if (value) {
                       if (value != this.length()) {
-                          $location.search('pl',(value == 10 ? null : (value || null)));
+                          $location.search('pl',(value == 20 ? null : (value || null)));
                       }
                       return;
                   }
-                  return $location.search().pl || 10;
+                  return $location.search().pl || 20;
               },
               index: function(value) {
                   if (value) {

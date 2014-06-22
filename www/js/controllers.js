@@ -70,6 +70,7 @@ angular.module('myApp.controllers', [])
             count: $scope.page.length,
             sorting: $scope.sort
         }, {
+            counts: [20,50,100],
             total: 0, // length of data
             getData: function($defer, params) {
                 $scope.page.index = params.page();

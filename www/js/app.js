@@ -6,6 +6,8 @@
  * be done based on only the first author.
  * TODO: UI tweaks: we need some margins in a few places, not sure if
  * there's more stuff.
+ * TODO: When you go back in the history after changing the page number
+ * or pagination count, it doesn't refresh with the new data.
  * TODO: Need to make the item details page look nicer. Group the fields
  * together.
  * TODO: Need Loading animations, or some sort of thing on the table
