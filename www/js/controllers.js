@@ -64,7 +64,7 @@ angular.module('myApp.controllers', [])
               cb("An Error Occurred");
             });
         }
-
+        
         $scope.tableParams = new ngTableParams({
             page: $scope.page.index,
             count: $scope.page.length,
@@ -88,7 +88,11 @@ angular.module('myApp.controllers', [])
                             $defer.resolve([]);
                         } else {
                             params.total(data.length);
+                            
                             // use build-in angular filter
+                            // NOTE: The authors are sorted by specifying
+                            // the sort property as 'authors[0].name'.
+                            console.log(params.orderBy());
                             var orderedData = $scope.sort ?
                                                 $filter('orderBy')(data, params.orderBy()) :
                                                 data;

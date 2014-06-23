@@ -9,7 +9,7 @@
         <td data-title="'Title'" sortable="'title'"><a href="#/detail/{{item.key}}?{{urlParams()}}">{{item.title}}</a></td>
         <td data-title="'Subtitle'" sortable="'subtitle'">{{item.subtitle}}</td>
         <td data-title="'Series'" sortable="'series'">{{item.series}}</td>
-        <td  data-title="'Authors'" sortable="'authors'"><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}<br ng-hide="$last"></span></td>
+        <td  data-title="'Authors'" sortable="'people[0].name'"><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}<br ng-hide="$last"></span></td>
         <td data-title="'Location'" sortable="'location'">{{item.location}}</td>
         <td data-title="'Call'" sortable="'callNumber'" class="narrow" header-class="narrow">{{item.callNumber}}</td>
     </tr>

@@ -1,9 +1,6 @@
 'use strict';
 
 /* 
- * TODO: Can't sort correctly by author. Maybe we need to have an
- * 'author1', 'author2', etc. set of fields anyway. Or, sorting should
- * be done based on only the first author.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
