@@ -160,4 +160,7 @@ angular.module('myApp.filters', []).
                 ]
                 return result;
             }
-    ]);
+    ]).
+    filter('encodeURIComponent',function() {
+                return encodeURIComponent;
+    })

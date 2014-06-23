@@ -110,11 +110,34 @@ angular.module('myApp.controllers', [])
         })
 
     }])
-  .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', '$http', function($scope,$routeParams,queryParams,$http) {
+  .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', '$http', 'filterFilter', function($scope,$routeParams,queryParams,$http,filter) {
         // this is a function that helps rebuild the URL for links.
         $scope.urlParams = queryParams.urlParams;
         $scope.itemKey = $routeParams.itemKey;
+        // give it a blank to work with.
+        $scope.item = {};
         $http.get('data/' + $scope.itemKey + '.json').success(function(data) {
+          data.authors = [];
+          data.illustrators = [];
+          data.editors = [];
+          // TODO: Do this filtering in the original data import.
+          for (var i = 0; i < data.people.length; i++) {
+              var person = data.people[i];
+              switch (person.role) {
+                case "author":
+                    data.authors.push(person.name);
+                    break;
+                case "illustrator":
+                    data.illustrators.push(person.name);
+                    break;
+                case "editor":
+                    data.editors.push(person.name);
+                    break;
+                default:
+                    // TODO: Figure out what to do with other roles.
+                    break;
+              }
+          }
           $scope.item = data;
         });
 
@@ -130,5 +153,5 @@ angular.module('myApp.controllers', [])
                 firstCheck = false;
             }
         })
-
+        
   }]);

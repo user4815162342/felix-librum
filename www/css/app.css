@@ -49,7 +49,7 @@ header {
     text-align: center;
 }
 
-.item-content, .items-table {
+.items-table {
     position: absolute;
     top: 2em;
     left: 0px;
@@ -71,6 +71,100 @@ header {
     min-width: 5em;
     max-width: 5em;
 }
+
+.item-detail {
+    position: absolute;
+    top: 2em;
+    left: 0px;
+    /* width is not set here. I want this to compress to the left */
+    bottom: 0px;
+}
+
+.item-detail .top-section {
+    margin-top: 2em;
+}
+
+.item-detail .top-section .left-column {
+    float: left;
+    max-width: 20em;
+    margin-left: 2em;
+}
+
+.item-detail .top-section .right-column {
+    float: left;
+    margin-left: 3em;
+    overflow-x: auto;
+}
+
+.item-detail .top-section {
+    clear: both;
+}
+
+.item-detail .location {
+    font-weight: bold;
+}
+
+.item-detail .ar {
+    margin-top: 5em;
+    border: 1px dotted;
+    padding: 3px;
+}
+
+.item-detail .ar h1 {
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0;
+}
+
+.item-detail .ar dl {
+    width: 100%;
+    overflow: hidden;
+}
+
+.item-detail cite {
+    font-style: italic
+}
+
+.item-detail .ar dt {
+    clear: both;
+    display: block;
+    float: left;
+    width: 40%;
+}
+
+.item-detail .ar dd {
+    display: block;
+    float: left;
+    width: 60%;
+}
+
+
+.item-detail .footer {
+    clear: both;
+    padding-top: 3em;
+    padding-bottom: 2em;
+}
+
+.item-detail .footer .date {
+    float: left;
+    margin-left: 1em;
+    color: grey;
+    font-style: italic;
+}
+
+.item-detail .footer .status {
+    float: right;
+    margin-right: 1em;
+    color: grey;
+    font-style: italic;
+}
+
+.item-detail .JSON {
+    display: none;
+    clear: both;
+}
+
 
 footer {
     position: absolute;

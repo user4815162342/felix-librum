@@ -4,10 +4,14 @@
  * TODO: Can't sort correctly by author. Maybe we need to have an
  * 'author1', 'author2', etc. set of fields anyway. Or, sorting should
  * be done based on only the first author.
+ * TODO: To simplify the templates, instead of a single "people" field, we
+ * should have seperate author, editor and illustrator fields which
+ * can contain arrays.
+ * TODO: In fact, we can do some parsing of the authors field for now,
+ * if we see things like ", ill." at the end, it's an illustrator, ", ed."
+ * is an editor, etc. Can also parse out the years of life for them.
  * TODO: When you go back in the history after changing the page number
  * or pagination count, it doesn't refresh with the new data.
- * TODO: Need to make the item details page look nicer. Group the fields
- * together.
  * TODO: Need Loading animations, or some sort of thing on the table
  * itself.
  * TODO: UI tweaks: we need some margins in a few places, not sure if
@@ -17,6 +21,10 @@
  * TODO: Need to figure out what those unknown fields are. (They
  * contain no data, so I guess the answer is stuck on the machine at
  * school)
+ * TODO: If the unknown fields aren't important, I need publisher,
+ * publishCity and publishYear from the database. I probably need
+ * a better export system.
+ * TODO: I need to remove the Lost and Discarded books from the import.
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
  * TODO: Need a better name for the application. Suggestions:

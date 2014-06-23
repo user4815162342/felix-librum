@@ -1,45 +1,57 @@
 <div class="item-message">
 <a href="#/list?{{urlParams()}}">Back to Results</a>
 </div>
-<div class="item-content">
-<dl>
-    <dt>Title:</dt>
-    <dd>{{item.title}}</dd>
-    <td>Subtitle:</td>
-    <dd>{{item.subtitle}}</dd>
-    <dt>Series:</dt>
-    <dd>{{item.series}}</dd>
-    <dt>Volume:</dt>
-    <dd>{{item.volume}}</dd>
-    <dt>Copy Number:</dt>
-    <dd>{{item.copyNumber}}</dd>
-    <dt>Authors:</dt>
-    <dd><ul><li ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}</li></ul></dd>
-    <dt>Subjects:</dt>
-    <dd><ul><li ng-repeat="subject in item.subjects track by $index">{{subject}}</li></ul></dd>
-    <dt>Location:</dt>
-    <dd>{{item.location}}</dd>
-    <dt>Call Number:</dt>
-    <dd>{{item.callNumber}}</dd>
-    <dt>AR Quiz Number:</dt>
-    <dd>{{item.arQuizNumber}}</dd>
-    <dt>AR Interest Level:</dt>
-    <dd>{{item.arInterestLevel}}</dd>
-    <dt>AR Grade Level</dt>
-    <dd>{{item.arGradeLevel}}</dd>
-    <dt>AR Points</dt>
-    <dd>{{item.arPoints}}</dd>
-    <dt>Date Added</dt>
-    <dd>{{item.dateAdded}}</dd>
-    <dt>Unknown1</dt>
-    <dd>{{item.unknown1}}</dd>
-    <dt>Unknown2</dt>
-    <dd>{{item.unknown2}}</dd>
-    <dt>Unknown3</dt>
-    <dd>{{item.unknown3}}</dd>
-    <dt>Unknown4</dt>
-    <dd>{{item.unknown4}}</dd>
-    <dt>Status:</dt>
-    <dd>{{item.status}}</dd>
-</dl>
+<div class="item-detail">
+    <div class="top-section">
+        <div class="left-column">
+            <div class="location">
+                <span>{{item.callNumber}}</span><span ng-show="item.copyNumber &gt; 1">&nbsp;c.&nbsp;{{item.copyNumber}}</span><br/>
+                <span>{{item.location}}</span>
+            </div>
+            <div class="ar" ng-show="item.arQuizNumber">
+                <h1>Accelerated Reader</h1>
+                <dl>
+                    <dt>quiz:</dt><dd><a href="http://www.arbookfind.com/bookdetail.aspx?q={{item.arQuizNumber}}&l=EN" target="_blank">{{item.arQuizNumber}}</a></dd>
+                    <dt>int. lvl:</dt><dd>{{item.arInterestLevel}}</dd>
+                    <dt>grade:</dt><dd>{{item.arGradeLevel | number:1}}</dd>
+                    <dt>points:</dt><dd>{{item.arPoints | number:1}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="title"><cite>{{item.title}}</cite><cite ng-show="item.subtitle">: {{item.subtitle}}</cite></div>
+            <div class="people authors" ng-show="item.authors">
+                By <span ng-repeat="name in item.authors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            </div>
+            <div class="people illustrators" ng-show="item.illustrators">
+                Illustrated By <span ng-repeat="name in item.illustrators"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            </div>
+            <div class="people editors" ng-show="item.editors">
+                Edited By <span ng-repeat="name in item.editors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            </div>
+            <div class="subjects" ng-show="item.subjects">
+                <ul>
+                    <li ng-repeat="subject in item.subjects"><a href="#/list?ff=subject&ft={{subject | encodeURIComponent}}">{{subject}}</a></li>
+                </ul>
+            </div>
+            <div class="imprint">
+            <span>{{item.publishCity}}</span><span ng-show="item.publisher">:&nbsp;{{item.publisher}}</span><span>&nbsp;{{item.publishYear}}</span></div>
+            <div class="series">
+            <cite ng-show="item.series || item.volume">(<a href="#/list?ff=title&ft={{item.series | encodeURIComponent}}">{{item.series}}</a>&nbsp;<span ng-show="item.volume">vol. {{item.volume}}</span>)</cite>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="date">
+            {{item.dateAdded}}
+        </div>
+        <div class="status">
+            {{item.status}}
+        </div>
+    </div>
+    <div class="JSON">
+        <pre>
+{{item | json}}
+        </pre>
+    </div>
 </div>
