@@ -30,7 +30,7 @@ angular.module('myApp.controllers', [])
         
 
     }])
-    .controller('itemsController', ['$scope', 'queryParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', '$timeout', function($scope,queryParams,$filter,$http,libraryQuery,ngTableParams,$timeout) {
+    .controller('itemsController', ['$scope', 'queryParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', '$timeout', 'pageLengths', function($scope,queryParams,$filter,$http,libraryQuery,ngTableParams,$timeout,pageLengths) {
         // initialize data.
         $scope.loading = true;
         // this is a function that helps rebuild the URL for links.
@@ -70,7 +70,7 @@ angular.module('myApp.controllers', [])
             count: $scope.page.length,
             sorting: $scope.sort
         }, {
-            counts: [20,50,100],
+            counts: pageLengths,
             total: 0, // length of data
             getData: function($defer, params) {
                 $scope.page.index = params.page();

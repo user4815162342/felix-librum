@@ -8,7 +8,10 @@
 angular.module('myApp.services', []).
   value('version', '0.1').
   value('name', 'Library').
-  factory('queryParams',["$location",function($location) {
+  value('defaultPageLength',10).
+  value('defaultSearchField','title').
+  value('pageLengths',[10,25,50,100]).
+  factory('queryParams',["$location",'defaultPageLength','defaultSearchField',function($location,defaultPageLength,defaultSearchField) {
   // The filter params are passed on through the URL, not cookies. I prefer not
   // to use cookies or session/localStorage, because 1) It caches usage data
   // which is unnecessary and not fair to the user and 2) it often causes
@@ -25,7 +28,7 @@ angular.module('myApp.services', []).
                       }
                       return;
                   }
-                  return $location.search().ff || "title";
+                  return $location.search().ff || defaultSearchField;
               },
               text: function(value) {
                   if (arguments.length > 0) {
@@ -65,11 +68,11 @@ angular.module('myApp.services', []).
               length: function(value) {
                   if (value) {
                       if (value != this.length()) {
-                          $location.search('pl',(value == 20 ? null : (value || null)));
+                          $location.search('pl',(value == defaultPageLength ? null : (value || null)));
                       }
                       return;
                   }
-                  return $location.search().pl || 20;
+                  return $location.search().pl || defaultPageLength;
               },
               index: function(value) {
                   if (value) {
