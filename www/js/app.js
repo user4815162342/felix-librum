@@ -11,11 +11,14 @@
  * if we see things like ", ill." at the end, it's an illustrator, ", ed."
  * is an editor, etc. Can also parse out the years of life for them.
  * TODO: When you go back in the history after changing the page number
- * or pagination count, it doesn't refresh with the new data.
+ * or pagination count, it doesn't show the appropriate data. Similar
+ * problems with going back to results from details. Also with the
+ * sort fields.
+ * TODO: If you click on one of the links in the details to search by
+ * author, subject, etc. It doesn't update the search bar with those
+ * parameters.
  * TODO: Need Loading animations, or some sort of thing on the table
  * itself.
- * TODO: UI tweaks: we need some margins in a few places, not sure if
- * there's more stuff.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are. (They

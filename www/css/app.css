@@ -47,13 +47,14 @@ header {
     height: 2em;
     overflow: hidden;
     text-align: center;
+    font-style: italic;
 }
 
 .items-table {
     position: absolute;
     top: 2em;
     left: 0px;
-    right: 0px;
+    /* width is not set here. The columns specify the width. */
     bottom: 0px;
     overflow: auto;
 }
@@ -62,9 +63,23 @@ header {
     margin: 0px;
 }
 
+.items-table .ng-table-pager {
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+}
+
 .items-table td, th {
     min-width: 20em;
     max-width: 20em;
+    padding-left: 0.5em;
+}
+
+.items-table tr {
+    border-bottom: 1px dotted gray;
+}
+
+.items-table tfoot tr {
+    border: none;
 }
 
 .items-table td.narrow, th.narrow {
@@ -106,7 +121,7 @@ header {
 
 .item-detail .ar {
     margin-top: 5em;
-    border: 1px dotted;
+    border: 1px dotted grey;
     padding: 3px;
 }
 
@@ -130,13 +145,15 @@ header {
     clear: both;
     display: block;
     float: left;
-    width: 40%;
+    width: 50%;
+    text-align: right;
 }
 
 .item-detail .ar dd {
     display: block;
     float: left;
-    width: 60%;
+    width: 50%;
+    padding-left: 0.5em;
 }
 
 
