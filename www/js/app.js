@@ -4,9 +4,6 @@
  * TODO: Can't sort correctly by author. Maybe we need to have an
  * 'author1', 'author2', etc. set of fields anyway. Or, sorting should
  * be done based on only the first author.
- * TODO: When you sort by any field value, the data can cause some of the
- * column width's to shrink, shifts the table columns around uncomfortably.
- * Need to establish fixed widths for the columns, I think.
  * TODO: When you go back in the history after changing the page number
  * or pagination count, it doesn't refresh with the new data.
  * TODO: Need to make the item details page look nicer. Group the fields
