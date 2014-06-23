@@ -59,10 +59,11 @@ angular.module('myApp.services', []).
                   }
                   return;
               }
-              var result = {};
               if (search.sf) {
                   result[search.sf] = search.sd;
+                  return result;
               }
+              return;
           },
           page: {
               length: function(value) {

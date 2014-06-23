@@ -1,16 +1,44 @@
 'use strict';
 
 /* 
+ * TODO: When you go back in the history after changing the page number
+ * or pagination count, it doesn't show the appropriate data. Similar
+ * problems with going back to results from details. Also with the
+ * sort fields.
+ * Reproduce A: 
+ * 1. start out at a fresh list, with no parameters.
+ * 2. Click on page 2.
+ * 3. Press browser's back key.
+ * + Should show page 1, but it still shows page 2.
+ * Reproduce B: 
+ * 1. start out at a fresh list, with no parameters.
+ * 2. Click on page length of 25.
+ * 3. Press browser's back key.
+ * + Should show a page length of 10, but still shows page length of 25.
+ * Reproduce C:
+ * 1. start out at a fresh list, with no parameters.
+ * 2. Click on 'subtitle' to sort by that field.
+ * 3. Press browser's back key.
+ * + Should show the unsortedlist, but still shows the subtitle sort.
+ * Reproduce D (might be a different problem):
+ * 1. start out at a fresh list, with no parameters.
+ * 2. Click on 'subtitle' to sort by that field.
+ * 3. Click on the first title in the list. 
+ * 4. Press browser's back key.
+ * + Should show the sorted list, but this time the list is unsorted.
+ * Some of this is fixed, but some of it isn't. For example, I can now
+ * go back in the history, but forward doesn't work.
+ * *** This would be so much easier if we just depended on the update
+ * to the URL to refresh things, and have the buttons in the table to
+ * update that URL. 
+ * TODO: Clicking on the 'search links' in the details will cause that
+ * search to come up, but the search data isn't updated.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
  * TODO: In fact, we can do some parsing of the authors field for now,
  * if we see things like ", ill." at the end, it's an illustrator, ", ed."
  * is an editor, etc. Can also parse out the years of life for them.
- * TODO: When you go back in the history after changing the page number
- * or pagination count, it doesn't show the appropriate data. Similar
- * problems with going back to results from details. Also with the
- * sort fields.
  * TODO: If you click on one of the links in the details to search by
  * author, subject, etc. It doesn't update the search bar with those
  * parameters.
