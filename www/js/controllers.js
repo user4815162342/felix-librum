@@ -106,17 +106,23 @@ angular.module('myApp.controllers', [])
             refreshData();
         })
         
-        var curSort = null;
-        var curSortAsc = true;
-        
         $scope.setSort = function(value) {
-            if (value == curSort) {
-                curSortAsc = !curSortAsc;
+            var oldSort = queryParams.sort();
+            if (oldSort && (oldSort.substr(1) === value)) {
+                switch (oldSort[0]) {
+                    case "+":
+                        queryParams.sort("-" + value);
+                        break;
+                    case "-":
+                    default:
+                        queryParams.sort(null);
+                        break;
+                }
+            } else if (value) {
+                queryParams.sort("+" + value);
             } else {
-                curSortAsc = true;
+                queryParams.sort(null);
             }
-            curSort = value;
-            queryParams.sort((curSortAsc ? "+" : "-") + value);
         }
         
         $scope.setPage = function(value) {
