@@ -10,11 +10,6 @@
  * - paginator should disappear if there's only one page.
  * - the sort caret needs to be over to the side, not next to the column label.
  * - the sort caret should point both ways when the column is not sorted.
- * TODO: Clicking on the 'search links' in the details will cause that
- * search to come up, but the search data isn't updated. This is
- * probably a matter of watching for changes in the location. But it
- * might not be that simple, because one of the other changes causes
- * the location to change, which will cause problems...
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.

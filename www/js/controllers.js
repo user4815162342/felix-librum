@@ -11,25 +11,37 @@ angular.module('myApp.controllers', [])
             field: queryParams.filter.field(),
             text: queryParams.filter.text()
         }
-        // but we have to watch them to update the URL.
-        $scope.$watch("filter.field",function(newVal) {
-            queryParams.filter.field(newVal);
-        });
 
         // For the text, we don't want to update it all of the time,
         // because then we get a change for each keystroke. Just when
-        // the user leaves the text field. This function is attached
-        // to an event.
-        $scope.updateFilterText = function() {
-            queryParams.filter.text($scope.filter.text);
+        // the user leaves the text field. Therefore, this function
+        // is attached to ngBlur instead of ngChange.
+        $scope.setText = function(text) {
+            queryParams.filter.text(text);
         }
         // TODO: Consider using a timer to update the text field if
         // no changes within one second.
-        //$scope.$watch("filter.text",function(newVal) {
-        //    
-        //});
         
-
+        $scope.setField = function(text) {
+            console.log("Setting field",text);
+            queryParams.filter.field(text);
+        }
+        
+        // And now, watch the url, to update the fields.
+        $scope.$watch(function() {
+            return queryParams.urlParams()
+        },function(newVal) {
+            $scope.filter.field = queryParams.filter.field(),
+            $scope.filter.text = queryParams.filter.text()
+        })
+        
+        // 
+        $scope.checkEnter = function(event) {
+            console.log(event.keyCode == 13);
+            console.log((event.keyCode == 13) && $scope.setText($scope.filter.text));
+            console.log(event);
+        }
+        
     }])
     .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', '$timeout', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,$timeout,pageLengths) {
         
@@ -116,10 +128,6 @@ angular.module('myApp.controllers', [])
         
         $scope.setPageLength = function(value) {
             queryParams.page.length(value);
-        }
-        
-        $scope.log = function(value) {
-            console.log(value);
         }
         
 
