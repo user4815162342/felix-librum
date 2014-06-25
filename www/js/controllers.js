@@ -18,7 +18,8 @@ angular.module('myApp.controllers', [])
 
         // For the text, we don't want to update it all of the time,
         // because then we get a change for each keystroke. Just when
-        // the user leaves the text field.
+        // the user leaves the text field. This function is attached
+        // to an event.
         $scope.updateFilterText = function() {
             queryParams.filter.text($scope.filter.text);
         }
@@ -30,88 +31,97 @@ angular.module('myApp.controllers', [])
         
 
     }])
-    .controller('itemsController', ['$scope', 'queryParams', '$filter', '$http', 'libraryQueryFilter', 'ngTableParams', '$timeout', 'pageLengths', function($scope,queryParams,$filter,$http,libraryQuery,ngTableParams,$timeout,pageLengths) {
+    .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', '$timeout', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,$timeout,pageLengths) {
+        
         // initialize data.
         $scope.loading = true;
-        // this is a function that helps rebuild the URL for links.
+        $scope.pageLengths = pageLengths;
+        // this is a function that helps rebuild the URL for writing links in the template.
         $scope.urlParams = queryParams.urlParams;
-        // Load query parameters into appropriate places
-        $scope.filter = {
-            field: queryParams.filter.field(),
-            text: queryParams.filter.text()
-        }
-        $scope.page = {
-            length: queryParams.page.length(),
-            index: queryParams.page.index()
-        }
-        $scope.sort = queryParams.sort();
 
-        // This one basically calls $http.get on the first call, then
-        // rewrites the getData function to just return the data on
-        // future calls. Sort of like caching.
-        var getItems = function(cb) {
+       /* NOTE: I tried a couple of different plug-in table components, 
+        * but the major problem is that they didn't play well with 
+        * keeping the parameters in the $location. I wanted it to set 
+        * $location, and let a change to $location cause the data 
+        * refresh. Which means I can keep the $location updated with 
+        * it's data, but attempting to listen to the $location change 
+        * to update the data caused problems. Which means, when the 
+        * user goes back and forth in the history, the screen didn't 
+        * stay updated to the changed $location. */
+
+        var refreshData = function() {
             $http.get('data/items.json').success(function(data) {
-                getItems = function(cb) {
-                    cb(null,libraryQuery(data,$scope.filter.field,$scope.filter.text));
+                refreshData = function(cb) {
+                    $scope.$evalAsync(function() {
+                        // get data into the scope
+                        var sort = $scope.sort = queryParams.sort();
+                        var pageLength = $scope.pageLength = queryParams.page.length();
+                        var pageIndex = $scope.pageIndex = queryParams.page.index();
+                        var filterField = $scope.filterField = queryParams.filter.field();
+                        var filterText = $scope.filterText = queryParams.filter.text();
+                        
+                        // run filter
+                        var result = libraryQuery(data,filterField,filterText);
+                        // TODO: Do I need this?
+                        $scope.filteredTotal = result.length;
+                        var lastPage = $scope.lastPage = Math.ceil(result.length / pageLength);
+                        if (pageIndex >= lastPage) {
+                            pageIndex = $scope.pageIndex = lastPage;
+                        }                            
+                        // run sort
+                        result = orderBy(result, sort);
+                        // run pagination.
+                        $scope.filteredItems = result.slice((pageIndex - 1) * pageLength,pageIndex * pageLength);
+                    });
                 }
                 $scope.loading = false;
                 $scope.total = data.length;
-                getItems(cb);
+                refreshData();
             }).error(function() {
-                // TODO: Should pass the error information to callback.
+                // TODO: Should indicate error information, at least unless
+                // we got a 404, in which case we have no data.
                 $scope.loading = false;
                 $scope.total = 0;
-              cb("An Error Occurred");
             });
         }
         
-        $scope.tableParams = new ngTableParams({
-            page: $scope.page.index,
-            count: $scope.page.length,
-            sorting: $scope.sort
-        }, {
-            counts: pageLengths,
-            total: 0, // length of data
-            getData: function($defer, params) {
-                $scope.page.index = params.page();
-                $scope.page.length = params.count();
-                $scope.sort = params.sorting();
-                queryParams.page.index($scope.page.index);
-                queryParams.page.length($scope.page.length);
-                queryParams.sort($scope.sort);
-                
-                getItems(function(err,data) {
-                    $timeout(function() {
-                        $scope.items = data;
-                        if (err) {
-                            params.total(0);
-                            $defer.resolve([]);
-                        } else {
-                            params.total(data.length);
-                            
-                            // use build-in angular filter
-                            // NOTE: The authors are sorted by specifying
-                            // the sort property as 'authors[0].name'.
-                            console.log(params.orderBy());
-                            var orderedData = $scope.sort ?
-                                                $filter('orderBy')(data, params.orderBy()) :
-                                                data;
-                            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                        }
-                    });
-                });
-                
-            }
-        }); 
-        
-        // We need to force a refresh of the table when the filter changes.
+        refreshData();
+        // TODO: Now, we just need click handlers on the sortable th,
+        // and paginator from bootstrap. These things should update the URL,
+        // and the URL watch will cause a refresh data.
+
+        // TODO: Question, does this run automatically on start?
         $scope.$watch(function() {
-            return queryParams.filter.field()  + "|" + queryParams.filter.text();
-        },function() {
-            $scope.filter.field = queryParams.filter.field();
-            $scope.filter.text = queryParams.filter.text();
-            $scope.tableParams.reload();
+            return queryParams.urlParams()
+        },function(newVal) {
+            refreshData();
         })
+        
+        var curSort = null;
+        var curSortAsc = true;
+        
+        $scope.setSort = function(value) {
+            if (value == curSort) {
+                curSortAsc = !curSortAsc;
+            } else {
+                curSortAsc = true;
+            }
+            curSort = value;
+            queryParams.sort((curSortAsc ? "+" : "-") + value);
+        }
+        
+        $scope.setPage = function(value) {
+            queryParams.page.index(value);
+        }
+        
+        $scope.setPageLength = function(value) {
+            queryParams.page.length(value);
+        }
+        
+        $scope.log = function(value) {
+            console.log(value);
+        }
+        
 
     }])
   .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', '$http', 'filterFilter', function($scope,$routeParams,queryParams,$http,filter) {

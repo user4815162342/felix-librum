@@ -1,38 +1,20 @@
 'use strict';
 
 /* 
- * TODO: When you go back in the history after changing the page number
- * or pagination count, it doesn't show the appropriate data. Similar
- * problems with going back to results from details. Also with the
- * sort fields.
- * Reproduce A: 
- * 1. start out at a fresh list, with no parameters.
- * 2. Click on page 2.
- * 3. Press browser's back key.
- * + Should show page 1, but it still shows page 2.
- * Reproduce B: 
- * 1. start out at a fresh list, with no parameters.
- * 2. Click on page length of 25.
- * 3. Press browser's back key.
- * + Should show a page length of 10, but still shows page length of 25.
- * Reproduce C:
- * 1. start out at a fresh list, with no parameters.
- * 2. Click on 'subtitle' to sort by that field.
- * 3. Press browser's back key.
- * + Should show the unsortedlist, but still shows the subtitle sort.
- * Reproduce D (might be a different problem):
- * 1. start out at a fresh list, with no parameters.
- * 2. Click on 'subtitle' to sort by that field.
- * 3. Click on the first title in the list. 
- * 4. Press browser's back key.
- * + Should show the sorted list, but this time the list is unsorted.
- * Some of this is fixed, but some of it isn't. For example, I can now
- * go back in the history, but forward doesn't work.
- * *** This would be so much easier if we just depended on the update
- * to the URL to refresh things, and have the buttons in the table to
- * update that URL. 
+ * TODO: Need to work on style of items page:
+ * - got a weird scrollbar thing going on there, eh?
+ * - look at bootstrap CSS styles for tables.
+ * - paginator can be centered, I think.
+ * - needs to be a space between paginator and "show 10 items..." dropdown.
+ * - actually, the paginator stuff can be on the same level as the 'message'.
+ * - paginator should disappear if there's only one page.
+ * - the sort caret needs to be over to the side, not next to the column label.
+ * - the sort caret should point both ways when the column is not sorted.
  * TODO: Clicking on the 'search links' in the details will cause that
- * search to come up, but the search data isn't updated.
+ * search to come up, but the search data isn't updated. This is
+ * probably a matter of watching for changes in the location. But it
+ * might not be that simple, because one of the other changes causes
+ * the location to change, which will cause problems...
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
@@ -76,9 +58,6 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
   'ngRoute',
-  // NOTE: ng-grid is part of angular UI, but the current version depends on jQuery, which I don't want.
-  // This one seems to work, though.
-  'ngTable',
   'ui.bootstrap',
   'myApp.filters',
   'myApp.services',

@@ -59,19 +59,35 @@ header {
     overflow: auto;
 }
 
-.items-table .ng-table-pagination {
-    margin: 0px;
+.items-table .pagination {
+    float: left;
 }
 
-.items-table .ng-table-pager {
-    padding-right: 0.5em;
-    padding-top: 0.5em;
+.items-table .paginators:after {
+    clear: both;
+}
+
+.items-table .paginators label {
+    padding-left: 5em;
+    line-height: 2em;
 }
 
 .items-table td, th {
     min-width: 20em;
     max-width: 20em;
     padding-left: 0.5em;
+}
+
+.items-table th {
+    text-align: center;
+}
+
+.items-table th.sortable {
+    cursor: default;
+}
+
+.items-table th.sort-asc, th.sort-desc {
+    background-color: #428BCA;
 }
 
 .items-table tr {
