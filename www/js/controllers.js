@@ -19,8 +19,8 @@ angular.module('myApp.controllers', [])
         $scope.setText = function(text) {
             queryParams.filter.text(text);
         }
-        // TODO: Consider using a timer to update the text field if
-        // no changes within one second.
+        // TODO: Consider using a timer to update the text field after
+        // a change, if there's no more changes in one second.
         
         $scope.setField = function(text) {
             console.log("Setting field",text);
@@ -43,7 +43,7 @@ angular.module('myApp.controllers', [])
         }
         
     }])
-    .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', '$timeout', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,$timeout,pageLengths) {
+    .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,pageLengths) {
         
         // initialize data.
         $scope.loading = true;
@@ -74,7 +74,6 @@ angular.module('myApp.controllers', [])
                         
                         // run filter
                         var result = libraryQuery(data,filterField,filterText);
-                        // TODO: Do I need this?
                         $scope.filteredTotal = result.length;
                         var lastPage = $scope.lastPage = Math.ceil(result.length / pageLength);
                         if (pageIndex >= lastPage) {
@@ -97,15 +96,13 @@ angular.module('myApp.controllers', [])
             });
         }
         
-        refreshData();
-        // TODO: Now, we just need click handlers on the sortable th,
-        // and paginator from bootstrap. These things should update the URL,
-        // and the URL watch will cause a refresh data.
+        // NMS: There's no reason to call this, because the $watch below
+        // on urlParams will be triggered after the page loads anyway.
+        //refreshData();
 
-        // TODO: Question, does this run automatically on start?
         $scope.$watch(function() {
             return queryParams.urlParams()
-        },function(newVal) {
+        },function() {
             refreshData();
         })
         
