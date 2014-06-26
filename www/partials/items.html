@@ -1,15 +1,9 @@
-<div class="items-message">
-    <p ng-show="!loading && (filteredTotal == total)">The library has {{total}} items in its catalog.</p>
-    <p ng-show="!loading && filteredTotal && (filteredTotal !== total)">{{filteredTotal}} items match your query.</p>
-    <p ng-show="!loading && !filteredTotal">No items match your query.</p>
-    <p ng-show="loading">Loading Data...</p>
-</div>
-<div class="items-table">
-<div class="paginators" ng-hide="loading">
-    <!-- TODO: Consider just using the radio button thing for the pagination. That way we only get click events
-         which set the data -->
-    <ul pagination total-items="filteredTotal" items-per-page="pageLength" ng-model="pageIndex" max-size="3" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" ng-change="setPage(pageIndex)"></ul>
-    <div class="pagination btn-group" dropdown>
+<div class="row">
+    <p class="text-left text-info col-md-4 library-message">{{loadingStatus}}</p>
+    <div ng-hide="loading" class="col-md-4" id="paginator">
+        <ul ng-hide="filteredTotal < pageLength" pagination total-items="filteredTotal" items-per-page="pageLength" ng-model="pageIndex" max-size="3" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" ng-change="setPage(pageIndex)"></ul>
+    </div>
+    <div class="col-md-4" ng-hide="loading" id="page-length-choice" class="pagination btn-group" dropdown>
       <button type="button" class="btn btn-default dropdown-toggle">
         Show {{pageLength}} items per page <span class="caret"></span>
       </button>
@@ -18,24 +12,27 @@
       </ul>
     </div>    
 </div>
-<div constant name="columns" value="[['Title','title'],['Subtitle','subtitle'],['Series','series'],['Authors','people[0].name'],['Location','location'],['Call Number','callNumber']]"></div>
-<table ng-show="filteredItems.length">
-    <thead>
-        <tr>
-            <th ng-repeat="col in columns"
-                ng-class="{ 'btn-info': (sort.substr(1) === col[1]), dropup: (sort === ('+' + col[1]))}"
-                class="sortable" ng-click="setSort(col[1])">{{col[0]}}<span class="caret"></span></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="item in filteredItems">
-            <td><a href="#/detail/{{item.key}}?{{urlParams()}}">{{item.title}}</a></td>
-            <td>{{item.subtitle}}</td>
-            <td>{{item.series}}</td>
-            <td><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}<br ng-hide="$last"></span></td>
-            <td>{{item.location}}</td>
-            <td class="narrow">{{item.callNumber}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row items-table">
+    <div constant name="columns" value="[['Title','title'],['Subtitle','subtitle'],['Series','series'],['Authors','people[0].name'],['Location','location'],['Call Number','callNumber']]"></div>
+    <table class="table table-striped table-hover table-condensed table-responsive" ng-show="filteredItems.length">
+        <thead>
+            <tr>
+                <th ng-repeat="col in columns"
+                    ng-class="{ 'btn-info': (sort.substr(1) === col[1])}"
+                    class="sortable" ng-click="setSort(col[1])">{{col[0]}}
+                    <!-- glyphicons (http://glyphicons.com/) come with bootstrap -->
+                    <span ng-class="{ 'glyphicon-sort-by-alphabet': (sort === ('+' + col[1])), 'glyphicon-sort-by-alphabet-alt': (sort === ('-' + col[1]))}" class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in filteredItems">
+                <td><a href="#/detail/{{item.key}}?{{urlParams()}}">{{item.title}}</a></td>
+                <td>{{item.subtitle}}</td>
+                <td>{{item.series}}</td>
+                <td><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}<br ng-hide="$last"></span></td>
+                <td>{{item.location}}</td>
+                <td class="narrow">{{item.callNumber}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

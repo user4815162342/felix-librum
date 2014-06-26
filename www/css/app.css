@@ -1,101 +1,11 @@
 /* app css stylesheet */
 
-html,body {
-    margin:0;
-    padding:0;
-    height: 100%;
-    width: 100%;
-}
 
-header #logo {
-    float: left;
-}
-
-header #search {
-    float: right;
-}
-
-header:after {
-    content: "";
-    display: block;
-    clear: both;
-}
-
-header {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 5em;
-    right: 0px;
-    overflow: hidden;
-}
-
-.main-content {
-    position: absolute;
-    top: 5em;
-    left: 0px;
-    bottom: 2em;
-    right: 0px;
-    overflow: auto;
-}
-
-.items-message, .item-message {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height: 2em;
-    overflow: hidden;
-    text-align: center;
-    font-style: italic;
-}
-
-.items-table {
-    position: absolute;
-    top: 2em;
-    left: 0px;
-    /* width is not set here. The columns specify the width. */
-    bottom: 0px;
-    overflow: auto;
-}
-
-.items-table .pagination {
-    float: left;
-}
-
-.items-table .paginators:after {
-    clear: both;
-}
-
-.items-table .paginators label {
-    padding-left: 5em;
-    line-height: 2em;
-}
-
+/** Need columns in table to be fixed width, or they jump all over
+ * when changing sort and filter. */
 .items-table td, th {
-    min-width: 20em;
-    max-width: 20em;
-    padding-left: 0.5em;
-}
-
-.items-table th {
-    text-align: center;
-}
-
-.items-table th.sortable {
-    cursor: default;
-}
-
-.items-table th.sort-asc, th.sort-desc {
-    background-color: #428BCA;
-}
-
-.items-table tr {
-    border-bottom: 1px dotted gray;
-}
-
-.items-table tfoot tr {
-    border: none;
+    min-width: 15em;
+    max-width: 15em;
 }
 
 .items-table td.narrow, th.narrow {
@@ -103,107 +13,69 @@ header {
     max-width: 5em;
 }
 
-.item-detail {
-    position: absolute;
-    top: 2em;
-    left: 0px;
-    /* width is not set here. I want this to compress to the left */
-    bottom: 0px;
+/* Correct some layout issues with the paginator */
+#paginator {
+    padding: 0 15px;
 }
 
-.item-detail .top-section {
-    margin-top: 2em;
-}
-
-.item-detail .top-section .left-column {
-    float: left;
-    max-width: 20em;
-    margin-left: 2em;
-}
-
-.item-detail .top-section .right-column {
-    float: left;
-    margin-left: 3em;
-    overflow-x: auto;
-}
-
-.item-detail .top-section {
-    clear: both;
-}
-
-.item-detail .location {
-    font-weight: bold;
-}
-
-.item-detail .ar {
-    margin-top: 5em;
-    border: 1px dotted grey;
-    padding: 3px;
-}
-
-.item-detail .ar h1 {
-    font-size: small;
-    font-weight: bold;
-    text-align: center;
+#paginator ul {
     margin-top: 0;
+    margin-bottom: 10px;
 }
 
-.item-detail .ar dl {
-    width: 100%;
-    overflow: hidden;
+#page-length-choice {
+    margin-bottom: 10px;
 }
 
-.item-detail cite {
+/* Correct layout issues with the search controls */
+#search {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Line these various messages up with the buttons and each other */
+.library-message {
+    padding: 6px 15px;
+    vertical-align: middle;
+    font-style: italic;
+}
+
+/* Separate the bottom status panel from the rest */
+#version {
+    border-top: 1px solid;
+}
+
+/* Make sure the table headers have a pointer as a cursor, not a finger */
+.sortable {
+    cursor: default;
+}
+
+/* I believe that references to titles should always be italic */
+cite {
     font-style: italic
 }
 
-.item-detail .ar dt {
-    clear: both;
-    display: block;
-    float: left;
-    width: 50%;
-    text-align: right;
-}
-
-.item-detail .ar dd {
-    display: block;
-    float: left;
-    width: 50%;
-    padding-left: 0.5em;
+/* Make the spine label content bold */
+.spine #call-number, #copy-number {
+    font-weight: bold;
 }
 
 
-.item-detail .footer {
-    clear: both;
-    padding-top: 3em;
-    padding-bottom: 2em;
+/* For the ar fields, I want a definition list semantically, but I
+ * want it displayed horizontally. */
+.ar dl {
+    display: inline;
 }
 
-.item-detail .footer .date {
-    float: left;
-    margin-left: 1em;
-    color: grey;
-    font-style: italic;
+.ar dl dt, dl dd {
+    display: inline;
 }
 
-.item-detail .footer .status {
-    float: right;
-    margin-right: 1em;
-    color: grey;
-    font-style: italic;
+/* I also want a bullet separator between (but not before the first) 
+ * the ar fields, to more effectively display the semantics visually. */
+.ar dd + dt:before {
+    content: "\2022\00a0"
 }
 
-.item-detail .JSON {
-    display: none;
-    clear: both;
-}
-
-
-footer {
-    position: absolute;
-    bottom: 0px;
-    height: 2em;
-    left: 0px;
-    right: 0px;
-    overflow: hidden;
-}

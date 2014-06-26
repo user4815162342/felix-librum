@@ -2,23 +2,14 @@
 
 /* 
  * TODO: Need to work on style of items page:
- * - got a weird scrollbar thing going on there, eh?
- * - look at bootstrap CSS styles for tables.
- * - paginator can be centered, I think.
- * - needs to be a space between paginator and "show 10 items..." dropdown.
- * - actually, the paginator stuff can be on the same level as the 'message'.
- * - paginator should disappear if there's only one page.
- * - the sort caret needs to be over to the side, not next to the column label.
- * - the sort caret should point both ways when the column is not sorted.
+ * - There's still some shifting of the table going on when I set the page length 
+ * to a number that makes the paginator disappear.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
  * TODO: In fact, we can do some parsing of the authors field for now,
  * if we see things like ", ill." at the end, it's an illustrator, ", ed."
  * is an editor, etc. Can also parse out the years of life for them.
- * TODO: If you click on one of the links in the details to search by
- * author, subject, etc. It doesn't update the search bar with those
- * parameters.
  * TODO: Need Loading animations, or some sort of thing on the table
  * itself.
  * TODO: Go through bower dependencies and figure out if we have

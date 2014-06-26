@@ -47,6 +47,7 @@ angular.module('myApp.controllers', [])
         
         // initialize data.
         $scope.loading = true;
+        $scope.loadingStatus = "Loading Data...";
         $scope.pageLengths = pageLengths;
         // this is a function that helps rebuild the URL for writing links in the template.
         $scope.urlParams = queryParams.urlParams;
@@ -74,25 +75,39 @@ angular.module('myApp.controllers', [])
                         
                         // run filter
                         var result = libraryQuery(data,filterField,filterText);
-                        $scope.filteredTotal = result.length;
-                        var lastPage = $scope.lastPage = Math.ceil(result.length / pageLength);
-                        if (pageIndex >= lastPage) {
-                            pageIndex = $scope.pageIndex = lastPage;
-                        }                            
+                        var filteredTotal = $scope.filteredTotal = result.length;
                         // run sort
                         result = orderBy(result, sort);
                         // run pagination.
                         $scope.filteredItems = result.slice((pageIndex - 1) * pageLength,pageIndex * pageLength);
+                        if (filteredTotal == $scope.total) {
+                            $scope.loadingStatus = "The library has " + filteredTotal + " items in its catalog.";
+                        } else if (filteredTotal) {
+                            $scope.loadingStatus = "" + filteredTotal + " items match your query.";
+                        } else {
+                            $scope.loadingStatus = "No items match your query.";
+                        }
+                        $scope.loading = false;
                     });
                 }
-                $scope.loading = false;
                 $scope.total = data.length;
                 refreshData();
-            }).error(function() {
-                // TODO: Should indicate error information, at least unless
-                // we got a 404, in which case we have no data.
-                $scope.loading = false;
-                $scope.total = 0;
+            }).error(function(data,status,headers,config) {
+                if (status === 404) {
+                    // we've simply got no data. But don't override the get
+                    // in case someone puts some in.
+                    $scope.sort = queryParams.sort();
+                    $scope.pageLength = queryParams.page.length();
+                    $scope.pageIndex = queryParams.page.index();
+                    $scope.filterField = queryParams.filter.field();
+                    $scope.filterText = queryParams.filter.text();
+                    $scope.filteredTotal = 0;
+                    $scope.filteredItems = [];
+                    $scope.total = 0;
+                    $scope.loadingStatus = "The library has no items in its catalog.";
+                } else {
+                    $scope.loadingStatus = "An error occurred retrieving the data (" + status + "). Please refresh to try again.";
+                }
             });
         }
         
