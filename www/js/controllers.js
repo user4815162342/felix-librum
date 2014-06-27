@@ -76,7 +76,7 @@ angular.module('myApp.controllers', [])
         var refreshData = function() {
             // The parameter is added to make sure we don't have cached
             // data after changes are made. 
-            $http.get('data/items.json?5').success(function(data) {
+            $http.get('data/items.json?6').success(function(data) {
                 refreshData = function(cb) {
                     $scope.$evalAsync(function() {
                         // get data into the scope
