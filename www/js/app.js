@@ -1,7 +1,6 @@
 'use strict';
 
 /* 
- * TODO: I need to remove the Lost and Discarded books from the import.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are. (They

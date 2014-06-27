@@ -519,7 +519,16 @@ function main() {
     
     var parser = parse(input);
     
-    parser.on('record',data.push.bind(data));
+    parser.on('record',function(record) {
+        // I don't want to see data in here that is missing, lost or
+        // discarded. 
+        if ((!record.status) ||
+            ((record.status.indexOf("Missing") === -1) &&
+             (record.status.indexOf("Lost") === -1) &&
+             (record.status.indexOf("Discarded") === -1))) {
+            data.push(record)
+        }
+    });
     
     parser.on('error',function(err,line,data) {
         console.error("At line %s ('%s'): %s",line,data,err);
