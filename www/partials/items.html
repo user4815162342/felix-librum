@@ -19,7 +19,7 @@
                 <th sortable-column ng-click="setSort('title')" sorted="(sort.substr(1) === 'title')" sort-dir="sort[0]">Title</th>
                 <th sortable-column ng-click="setSort('subtitle')" sorted="(sort.substr(1) === 'subtitle')" sort-dir="sort[0]">Subtitle</th>
                 <th sortable-column ng-click="setSort('series')" sorted="(sort.substr(1) === 'series')" sort-dir="sort[0]">Series</th>
-                <th sortable-column ng-click="setSort('people[0].name')" sorted="(sort.substr(1) === 'people[0].name')" sort-dir="sort[0]">Authors</th>
+                <th sortable-column ng-click="setSort('authors[0].name')" sorted="(sort.substr(1) === 'authors[0].name')" sort-dir="sort[0]">Authors</th>
                 <th sortable-column ng-click="setSort('location')" sorted="(sort.substr(1) === 'location')" sort-dir="sort[0]">Location</th>
                 <th sortable-column ng-click="setSort('callNumber')"  sorted="(sort.substr(1) === 'callNumber')"  sort-dir="sort[0]" class="narrow">Call #</th>
             </tr>
@@ -29,7 +29,11 @@
                 <td><a href="#/detail/{{item.key}}?{{urlParams()}}">{{item.title}}</a></td>
                 <td>{{item.subtitle}}</td>
                 <td>{{item.series}}</td>
-                <td><span ng-repeat="person in item.people track by $index | filter:{role: 'author'}">{{person.name}}<br ng-hide="$last"></span></td>
+                <td>
+                    <span ng-repeat="person in item.authors track by $index">{{person.name}}<br/></span>
+                    <span ng-repeat="person in item.illustrators track by $index"><strong>ill.:</strong> {{person.name}}<br/></span>
+                    <span ng-repeat="person in item.editors track by $index"><strong>ed.:</strong> {{person.name}}<br/></span>
+                </td>
                 <td>{{item.location}}</td>
                 <td class="narrow">{{item.callNumber}}</td>
             </tr>

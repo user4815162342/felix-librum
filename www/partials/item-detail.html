@@ -11,13 +11,13 @@
     <div id="item-card" class="col-sm-4">
         <div id="title"><cite>{{item.title}}</cite><cite ng-show="item.subtitle">: {{item.subtitle}}</cite></div>
         <div id="authors" ng-show="item.authors">
-            <strong>By</strong> <span ng-repeat="name in item.authors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            <strong>By</strong> <span ng-repeat="author in item.authors"><a href="#/list?ff=author&ft={{author.name | encodeURIComponent}}">{{author.name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
         <div id="illustrators" ng-show="item.illustrators">
-            <strong>Illustrated By</strong> <span ng-repeat="name in item.illustrators"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            <strong>Illustrated By</strong> <span ng-repeat="illustrator in item.illustrators"><a href="#/list?ff=author&ft={{illustrator.name | encodeURIComponent}}">{{illustrator.name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
         <div id="editors" ng-show="item.editors">
-            <strong>Edited By</strong> <span ng-repeat="name in item.editors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
+            <strong>Edited By</strong> <span ng-repeat="editor in item.editors"><a href="#/list?ff=author&ft={{editor.name | encodeURIComponent}}">{{editor.name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
         <div id="series" ng-show="item.series || item.volume">
             <cite>(<a ng-show="item.series" href="#/list?ff=title&ft={{item.series | encodeURIComponent}}">{{item.series}}</a>&nbsp;<span ng-show="item.volume">vol. {{item.volume}}</span>)</cite>

@@ -1,12 +1,7 @@
 'use strict';
 
 /* 
- * TODO: To simplify the templates, instead of a single "people" field, we
- * should have seperate author, editor and illustrator fields which
- * can contain arrays.
- * TODO: In fact, we can do some parsing of the authors field for now,
- * if we see things like ", ill." at the end, it's an illustrator, ", ed."
- * is an editor, etc. Can also parse out the years of life for them.
+ * TODO: I need to remove the Lost and Discarded books from the import.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are. (They
@@ -15,7 +10,11 @@
  * TODO: If the unknown fields aren't important, I need publisher,
  * publishCity and publishYear from the database. I probably need
  * a better export system.
- * TODO: I need to remove the Lost and Discarded books from the import.
+ * TODO: Check the title "Our Star--The Sun" by Estalella in the 
+ * original database. There's a charactere encoding issue in the
+ * second authors name. Attempting to reload the tsv file in various
+ * encodings does not fix this, verify whether this is in the
+ * original data, the output, or something else I did.
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
  * TODO: Need a better name for the application. Suggestions:

@@ -74,7 +74,9 @@ angular.module('myApp.controllers', [])
         * stay updated to the changed $location. */
 
         var refreshData = function() {
-            $http.get('data/items.json').success(function(data) {
+            // The parameter is added to make sure we don't have cached
+            // data after changes are made. 
+            $http.get('data/items.json?5').success(function(data) {
                 refreshData = function(cb) {
                     $scope.$evalAsync(function() {
                         // get data into the scope
@@ -168,27 +170,6 @@ angular.module('myApp.controllers', [])
         // give it a blank to work with.
         $scope.item = {};
         $http.get('data/' + $scope.itemKey + '.json').success(function(data) {
-          data.authors = [];
-          data.illustrators = [];
-          data.editors = [];
-          // TODO: Do this filtering in the original data import.
-          for (var i = 0; i < data.people.length; i++) {
-              var person = data.people[i];
-              switch (person.role) {
-                case "author":
-                    data.authors.push(person.name);
-                    break;
-                case "illustrator":
-                    data.illustrators.push(person.name);
-                    break;
-                case "editor":
-                    data.editors.push(person.name);
-                    break;
-                default:
-                    // TODO: Figure out what to do with other roles.
-                    break;
-              }
-          }
           $scope.item = data;
         });
 

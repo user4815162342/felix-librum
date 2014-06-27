@@ -20,9 +20,25 @@ angular.module('myApp.filters', []).
                 return true;
             }
             queryText = queryText && queryText.toLowerCase();
-            for (var j = 0; j < item.people.length; j++) {
-                if (item.people[j].name.toLowerCase().indexOf(queryText) > -1) {
-                    return true;
+            if (item.authors) {
+                for (var j = 0; j < item.authors.length; j++) {
+                    if (item.authors[j].name.toLowerCase().indexOf(queryText) > -1) {
+                        return true;
+                    }
+                }
+            }
+            if (item.illustrators) {
+                for (var j = 0; j < item.illustrators.length; j++) {
+                    if (item.illustrators[j].name.toLowerCase().indexOf(queryText) > -1) {
+                        return true;
+                    }
+                }
+            }
+            if (item.editors) {
+                for (var j = 0; j < item.editors.length; j++) {
+                    if (item.editors[j].name.toLowerCase().indexOf(queryText) > -1) {
+                        return true;
+                    }
                 }
             }
             return false;            

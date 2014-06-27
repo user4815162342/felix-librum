@@ -22,12 +22,13 @@
  * The data from the input file is pulled into an array of objects. Most
  * fields map to simple string values. 
  * 
- * The "author1"..."author3" field is combined into an array of objects
- * under a property "credits". The objects contain two properties, name
- * and role. The name property gets the value of the author field, the 
- * role property gets the string "author". A future version of this
- * database may support additional roles, such as Illustrator, Editor,
- * etc.
+ * The "author1"..."author3" field is combined into an array of objects,
+ * and then parsed out carefully to split them into "authors", "illustrators"
+ * and "editors" fields (based on suffixes "ill." and "ed."). The items 
+ * in each field are objects containing a "name" and potentially a birth 
+ * year and death year if those can also be parsed out. Future versions
+ * of this may also allow for importing additional illustrator and
+ * editor fields.
  * 
  * The "subjects" field is parsed out into an array, with each subject line trimmed. 
  * 
@@ -273,6 +274,48 @@ var parse = function(input) {
         return result;
     }
     
+    
+    var personMatch = /^(.*),(?: (\d+)-(\d+)?)?( ill| illus| ed)?\.?$/
+    // TODO: This parsing shouldn't have to be done. It would be better
+    // if the proper data were provided in the first place. But, that's
+    // probably the case with subjects as well.
+    var parsePerson = function(value,line,info) {
+        // In general, this looks like:
+        // LastName, FirstName, BirthYear-DeathYear ill/ed.
+        var match = personMatch.exec(value);
+        if (match) {
+            var result = {
+                name: match[1],
+                birth: match[2],
+                death: match[3],
+                role: match[4]
+            }
+            switch (result.role) {
+                case " ed":
+                    result.role = "editor";
+                    break;
+                case " ill":
+                case " illus":
+                    result.role = "illustrator";
+                    break;
+                default:
+                    result.role = "author";
+                    break;
+            }
+            return result;
+        }
+        // else, we couldn't match, so I'll assume the whole string is
+        // the answer.
+        // Unless it has a period at the end.
+        if (value.indexOf(".", value.length - 1) !== -1) {
+            value = value.slice(0,-1);
+        }
+        return {
+            name: value,
+            role: "author"
+        }
+    }
+    
     handleToken("CRLF",function() {
         emit('record',currentRow);
         currentRow = newRow();
@@ -292,14 +335,17 @@ var parse = function(input) {
             case "author1":
             case "author2":
             case "author3":
-                if (!currentRow.people) {
-                    currentRow.people = [];
-                }
-                if (value) {
-                    currentRow.people.push({
-                        role: "author",
-                        name: value
-                    });
+                var result = parsePerson(value,line,info);
+                if (result.name) {
+                    var field = result.role + "s";
+                    if (!currentRow[field]) {
+                        currentRow[field] = [];
+                    }
+                    currentRow[field].push({
+                        name: result.name,
+                        birth: result.birth,
+                        death: result.death
+                    })
                 }
                 break;
             default:
