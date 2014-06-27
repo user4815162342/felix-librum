@@ -16,11 +16,12 @@
     <table class="table table-striped table-hover table-condensed table-responsive" ng-show="filteredItems.length">
         <thead>
             <tr>
-                <th ng-repeat="col in columns"
-                    ng-class="{ 'btn-info': (sort.substr(1) === col.sort), 'narrow': ($index == 5)}"
-                    class="sortable" ng-click="setSort(col.sort)">{{col.caption}}
-                    <!-- glyphicons (http://glyphicons.com/) come with bootstrap -->
-                    <span ng-class="{ 'glyphicon-sort-by-alphabet': (sort === ('+' + col.sort)), 'glyphicon-sort-by-alphabet-alt': (sort === ('-' + col.sort))}" class="btn btn-xs glyphicon glyphicon-sort"></span></th>
+                <th sortable-column ng-click="setSort('title')" sorted="(sort.substr(1) === 'title')" sort-dir="sort[0]">Title</th>
+                <th sortable-column ng-click="setSort('subtitle')" sorted="(sort.substr(1) === 'subtitle')" sort-dir="sort[0]">Subtitle</th>
+                <th sortable-column ng-click="setSort('series')" sorted="(sort.substr(1) === 'series')" sort-dir="sort[0]">Series</th>
+                <th sortable-column ng-click="setSort('people[0].name')" sorted="(sort.substr(1) === 'people[0].name')" sort-dir="sort[0]">Authors</th>
+                <th sortable-column ng-click="setSort('location')" sorted="(sort.substr(1) === 'location')" sort-dir="sort[0]">Location</th>
+                <th sortable-column ng-click="setSort('callNumber')"  sorted="(sort.substr(1) === 'callNumber')"  sort-dir="sort[0]" class="narrow">Call #</th>
             </tr>
         </thead>
         <tbody>

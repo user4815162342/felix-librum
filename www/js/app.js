@@ -58,4 +58,4 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/list', {templateUrl: 'partials/items.html', controller: 'itemsController', reloadOnSearch: false})
   $routeProvider.when('/detail/:itemKey', {templateUrl: 'partials/item-detail.html', controller: 'itemDetailController', reloadOnSearch: false});
   $routeProvider.otherwise({redirectTo: '/list'});
-}]);
+}])
