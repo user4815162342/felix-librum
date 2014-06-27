@@ -1,8 +1,17 @@
 'use strict';
 
+
 /* 
- * TODO: Go through bower dependencies and figure out if we have
- * something we don't need, or there are minimized versions available.
+ * TODO: Need tests.
+ * TODO: Need a better name for the application. Suggestions:
+ *  - SimpleCat
+ *  - CatBird
+ *  - SimpleOPAC
+ *  - OPACBird
+ *  - LibraryCat
+ *  - BirdCat
+ *  - SmallCat
+ *  - LibraryKitty.
  * TODO: Need to figure out what those unknown fields are. (They
  * contain no data, so I guess the answer is stuck on the machine at
  * school)
@@ -16,22 +25,13 @@
  * original data, the output, or something else I did.
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
- * TODO: Need a better name for the application. Suggestions:
- *  - SimpleCat
- *  - CatBird
- *  - SimpleOPAC
- *  - OPACBird
- *  - LibraryCat
- *  - BirdCat
- *  - SmallCat
- *  - LibraryKitty.
- * TODO: Goal: A purely JavaScript driven interface, so it doesn't
- * have to depend on the architecture of the back end. User should be
- * able to search by title, and author and subject.
- * TODO: May Need to break up lots of results data into smaller chunks for quicker loading. 
- * Probably have to paginate them somehow.
  * 
  * */
+
+/*
+ * GOAL: A purely JavaScript driven interface, so it doesn't
+ * have to depend on the architecture of the back end. User should be
+ * able to search by title, author, subject, and more. */
 
 
 // Declare app level module which depends on filters, and services

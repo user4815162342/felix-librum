@@ -45,32 +45,7 @@ angular.module('myApp.services', []).
               var result = {};
               if (arguments.length > 0) {
                   if (value) {
-                      if (angular.isString(value)) {
-                          $location.search('sort',value);
-                      } else  {
-                          // TODO: Once I've got my own table,
-                          // instead of ng-table, I don't need this.
-                          for (var key in value) {
-                              if (value.hasOwnProperty(key)) {
-                                  result.sf = key;
-                                  result.sd = value[key];
-                                  break;
-                              }
-                          }
-                          if (result.sd && result.sf) {
-                              switch (result.sd) {
-                                  case "desc":
-                                    $location.search('sort','-' + result.sf);
-                                    break;
-                                  case "asc":
-                                  default:
-                                    $location.search('sort','+' + result.sf);
-                                    break;
-                              }
-                          } else {
-                              $location.search('sort',null);
-                          }
-                      }
+                      $location.search('sort',value);
                   } else {
                       $location.search('sort',null);
                   }
