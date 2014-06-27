@@ -2,38 +2,42 @@
     <a href="#/list?{{urlParams()}}">Back to Results</a>
 </div>
 <div class="row">
-    <div class="col-sm-1">
-        <div class="spine text-center">
+    <div class="col-sm-1 col-sm-offset-3">
+        <div id="spine" class="text-center">
             <span id="call-number">{{item.callNumber}}</span><span id="copy-number" ng-show="item.copyNumber &gt; 1">&nbsp;c.&nbsp;{{item.copyNumber}}</span><br/>
             <span>{{item.location}}</span>
         </div>
     </div>
-    <div class="col-sm-4 card">
-        <div class="title"><cite>{{item.title}}</cite><cite ng-show="item.subtitle">: {{item.subtitle}}</cite></div>
-        <div class="people authors" ng-show="item.authors">
+    <div id="item-card" class="col-sm-4">
+        <div id="title"><cite>{{item.title}}</cite><cite ng-show="item.subtitle">: {{item.subtitle}}</cite></div>
+        <div id="authors" ng-show="item.authors">
             <strong>By</strong> <span ng-repeat="name in item.authors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
-        <div class="people illustrators" ng-show="item.illustrators">
+        <div id="illustrators" ng-show="item.illustrators">
             <strong>Illustrated By</strong> <span ng-repeat="name in item.illustrators"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
-        <div class="people editors" ng-show="item.editors">
+        <div id="editors" ng-show="item.editors">
             <strong>Edited By</strong> <span ng-repeat="name in item.editors"><a href="#/list?ff=author&ft={{name | encodeURIComponent}}">{{name}}</a>{{!$last ? "; " : ""}}</span>
         </div>
-        <div class="series" ng-show="item.series || item.volume">
+        <div id="series" ng-show="item.series || item.volume">
             <cite>(<a ng-show="item.series" href="#/list?ff=title&ft={{item.series | encodeURIComponent}}">{{item.series}}</a>&nbsp;<span ng-show="item.volume">vol. {{item.volume}}</span>)</cite>
         </div>
-        <div class="subjects" ng-show="item.subjects">
+        <div id="subjects" ng-show="item.subjects">
             <strong>Subjects:</strong>
             <ul>
                 <li ng-repeat="subject in item.subjects"><a href="#/list?ff=subject&ft={{subject | encodeURIComponent}}">{{subject}}</a></li>
             </ul>
         </div>
-        <div class="imprint" ng-show="item.publisher || item.publishCity || item.publishYear">
+        <div id="imprint" ng-show="item.publisher || item.publishCity || item.publishYear">
             <span>{{item.publishCity}}</span><span ng-show="item.publisher">:&nbsp;{{item.publisher}}</span><span>&nbsp;{{item.publishYear}}</span></div>
-        <div class="ar">
+        <div id="ar">
             <dl>
                 <dt>AR Quiz:</dt>
-                <dd><a href="http://www.arbookfind.com/bookdetail.aspx?q={{item.arQuizNumber}}&l=EN" target="_blank">{{item.arQuizNumber}}</a></dd>
+                <!-- TODO: May need to confirm the legality of posting 
+                a link to their site, and if there's some
+                way we can get to the page without the survey. -->
+                <dd><a href="http://www.arbookfind.com/bookdetail.aspx?q={{item.arQuizNumber}}&l=EN" 
+                    title="This link takes you to information about this title on the AR Bookfinder website. The first time you visit AR Bookfinder, you will be redirected to a welcome page with a one-question survey about your use of that site. You only have to answer this once. Upon answering the question, you will need to come back to this page and click on this link again to see the information. Further clicks on links to that site will not ask you for that information." target="_blank">{{item.arQuizNumber}}</a></dd>
                 <dt>Interest:</dt>
                 <dd>{{item.arInterestLevel}}</dd>
                 <dt>Grade:</dt>

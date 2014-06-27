@@ -20,7 +20,7 @@
 
 #paginator ul {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 #page-length-choice {
@@ -58,24 +58,31 @@ cite {
 }
 
 /* Make the spine label content bold */
-.spine #call-number, #copy-number {
+#call-number, #copy-number {
     font-weight: bold;
 }
+
+/* Some spacers */
+#series, #subjects, #imprint {
+    margin-top: 0.5em;
+}
+
 
 
 /* For the ar fields, I want a definition list semantically, but I
  * want it displayed horizontally. */
-.ar dl {
+#ar dl {
     display: inline;
 }
 
-.ar dl dt, dl dd {
+#ar dl dt, dl dd {
     display: inline;
 }
 
 /* I also want a bullet separator between (but not before the first) 
  * the ar fields, to more effectively display the semantics visually. */
-.ar dd + dt:before {
+#ar dd + dt:before {
     content: "\2022\00a0"
 }
+
 

@@ -1,9 +1,9 @@
 'use strict';
 
 /* 
- * TODO: Need to work on style of items page:
- * - There's still some shifting of the table going on when I set the page length 
- * to a number that makes the paginator disappear.
+ * TODO: Working on the sort glyph buttons, to make them look nicer. Might
+ * even make them into real buttons, or maybe the whole caption could be 
+ * a button.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
