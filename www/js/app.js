@@ -1,15 +1,12 @@
 'use strict';
 
 /* 
- * TODO: Need to change the title.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which
  * can contain arrays.
  * TODO: In fact, we can do some parsing of the authors field for now,
  * if we see things like ", ill." at the end, it's an illustrator, ", ed."
  * is an editor, etc. Can also parse out the years of life for them.
- * TODO: Need Loading animations, or some sort of thing on the table
- * itself.
  * TODO: Go through bower dependencies and figure out if we have
  * something we don't need, or there are minimized versions available.
  * TODO: Need to figure out what those unknown fields are. (They

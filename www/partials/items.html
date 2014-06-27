@@ -1,10 +1,10 @@
 <div class="row">
     <p class="text-left text-info col-md-4 library-message">{{loadingStatus}}</p>
     <div ng-hide="loading" class="col-md-4" id="paginator">
-        <ul ng-hide="filteredTotal < pageLength" pagination total-items="filteredTotal" items-per-page="pageLength" ng-model="pageIndex" max-size="3" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" ng-change="setPage(pageIndex)"></ul>
+        <ul ng-hide="filteredTotal < pageLength" pagination total-items="filteredTotal" items-per-page="pageLength" ng-model="pageIndex" max-size="3" rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" ng-change="setPage(pageIndex)"></ul>
     </div>
-    <div class="col-md-4" ng-hide="loading" id="page-length-choice" class="pagination btn-group" dropdown>
-      <button type="button" class="btn btn-default dropdown-toggle">
+    <div class="col-md-4 form-inline" ng-hide="loading" id="page-length-choice" class="pagination btn-group" dropdown>
+      <button type="button" class="btn btn-default dropdown-toggle form-control">
         Show {{pageLength}} items per page <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">

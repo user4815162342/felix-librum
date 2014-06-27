@@ -5,12 +5,23 @@
 angular.module('myApp.controllers', [])
     .controller('sidebarController', ['$scope', '$location', 'queryParams', 'libraryQueryFilter', function($scope, $location, queryParams, libraryQuery) {
         // this is a list of the possible values for filter field.
-        $scope.fields = libraryQuery.fields;
+        var fields = $scope.fields = libraryQuery.fields;
         // this is the filters passed in the URI.
         $scope.filter = {
             field: queryParams.filter.field(),
             text: queryParams.filter.text()
         }
+        
+        var setCurrentFilter = function(sort) {
+            $scope.currentFilter = null;
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].type === sort) {
+                    $scope.currentFilter = fields[i];
+                    break;
+                }
+            }
+        }
+        setCurrentFilter($scope.filter.field);
 
         // For the text, we don't want to update it all of the time,
         // because then we get a change for each keystroke. Just when
@@ -23,7 +34,7 @@ angular.module('myApp.controllers', [])
         // a change, if there's no more changes in one second.
         
         $scope.setField = function(text) {
-            console.log("Setting field",text);
+            setCurrentFilter(text);
             queryParams.filter.field(text);
         }
         

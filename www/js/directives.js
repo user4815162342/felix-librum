@@ -40,7 +40,7 @@ angular.module('myApp.directives', []).
           // --- Anyway, if you increment this query parameter after
           // making a change, it will change the cache key and force it
           // to reload.
-          templateUrl: "partials/sortable-column.html?30",
+          templateUrl: "partials/sortable-column.html?31",
           link: function(scope, element, attrs) {
           }
       }

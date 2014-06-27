@@ -1,4 +1,16 @@
-<div id="search-controls" ng-controller="sidebarController">
-    <input ng-model="filter.text" ng-keypress="($event.keyCode == 13) && setText(filter.text)" ng-blur="setText(filter.text)">
-    <select ng-model="filter.field" ng-change="setField(filter.field)" ng-options="value.type as value.label for value in fields"></select>
+<div id="search-controls" class="form-inline" ng-controller="sidebarController">
+    <strong>Search:</strong>
+    <label for="searchText" class="sr-only">Text:</label>
+    <input id="searchText" class="form-control" type="text" placeHolder="Enter text to search for" ng-model="filter.text" ng-keypress="($event.keyCode == 13) && setText(filter.text)" ng-blur="setText(filter.text)">
+    <label for="searchField" class="sr-only">Field:</label>
+    <span class="dropdown" is-open="fieldOpen">
+      <button id="searchField" type="button" class="form-control btn btn-default dropdown-toggle">
+        {{currentFilter.label}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li ng-repeat="value in fields">
+          <a href class="active" ng-click="setField(value.type)">{{value.label}}</a>
+        </li>
+      </ul>
+    </span>    
 </div>

@@ -27,6 +27,11 @@
     margin-bottom: 10px;
 }
 
+/* Line up the dropdown menu with the button */
+#page-length-choice ul.dropdown-menu {
+    margin-left: 15px;
+}
+
 /* Correct layout issues with the search controls */
 #search {
     padding-top: 6px;
