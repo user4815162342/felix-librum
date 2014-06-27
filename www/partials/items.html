@@ -13,15 +13,14 @@
     </div>    
 </div>
 <div class="row items-table">
-    <div constant name="columns" value="[['Title','title'],['Subtitle','subtitle'],['Series','series'],['Authors','people[0].name'],['Location','location'],['Call #','callNumber']]"></div>
     <table class="table table-striped table-hover table-condensed table-responsive" ng-show="filteredItems.length">
         <thead>
             <tr>
                 <th ng-repeat="col in columns"
-                    ng-class="{ 'btn-info': (sort.substr(1) === col[1]), 'narrow': ($index == 5)}"
-                    class="sortable" ng-click="setSort(col[1])">{{col[0]}}
+                    ng-class="{ 'btn-info': (sort.substr(1) === col.sort), 'narrow': ($index == 5)}"
+                    class="sortable" ng-click="setSort(col.sort)">{{col.caption}}
                     <!-- glyphicons (http://glyphicons.com/) come with bootstrap -->
-                    <span ng-class="{ 'glyphicon-sort-by-alphabet': (sort === ('+' + col[1])), 'glyphicon-sort-by-alphabet-alt': (sort === ('-' + col[1]))}" class="btn btn-xs glyphicon glyphicon-sort"></span></th>
+                    <span ng-class="{ 'glyphicon-sort-by-alphabet': (sort === ('+' + col.sort)), 'glyphicon-sort-by-alphabet-alt': (sort === ('-' + col.sort))}" class="btn btn-xs glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
