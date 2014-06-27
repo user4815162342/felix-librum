@@ -299,6 +299,8 @@ var parse = function(input) {
                     result.role = "illustrator";
                     break;
                 default:
+                    // put the ending back on the name, to be certain.
+                    result.name = result.name + (result.role || "");
                     result.role = "author";
                     break;
             }
