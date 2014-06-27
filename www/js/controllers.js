@@ -63,38 +63,6 @@ angular.module('myApp.controllers', [])
         // this is a function that helps rebuild the URL for writing links in the template.
         $scope.urlParams = queryParams.urlParams;
         
-        // Describe the columns that need to be displayed:
-        // (Seems like this should be part of layout, because these
-        // need to be matched up with the rows, which *are* layout.
-        // But, in some ways, the fields are part of data as well.)
-        $scope.columns = [
-            {
-                caption: 'Title',
-                sort: 'title'
-            },
-            {
-                caption: 'Subtitle',
-                sort: 'subtitle'
-            },
-            {
-                caption: 'Series',
-                sort: 'series'
-            },
-            {
-                caption: 'Authors',
-                sort: 'people[0].name'
-            },
-            {
-                caption: 'Location',
-                sort: 'location'
-            },
-            {
-                caption: 'Call #',
-                sort: 'callNumber'
-            }
-        ]
-
-
        /* NOTE: I tried a couple of different plug-in table components, 
         * but the major problem is that they didn't play well with 
         * keeping the parameters in the $location. I wanted it to set 
