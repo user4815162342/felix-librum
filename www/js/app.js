@@ -1,9 +1,6 @@
 'use strict';
 
 /* 
- * TODO: Working on the sort glyph buttons, to make them look nicer. Might
- * even make them into real buttons, or maybe the whole caption could be 
- * a button.
  * TODO: Need to change the title.
  * TODO: To simplify the templates, instead of a single "people" field, we
  * should have seperate author, editor and illustrator fields which

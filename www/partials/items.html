@@ -13,7 +13,7 @@
     </div>    
 </div>
 <div class="row items-table">
-    <table class="table table-striped table-hover table-condensed table-responsive" ng-show="filteredItems.length">
+    <table class="table table-striped table-hover table-condensed table-responsive table-bordered" ng-show="filteredItems.length">
         <thead>
             <tr>
                 <th sortable-column ng-click="setSort('title')" sorted="(sort.substr(1) === 'title')" sort-dir="sort[0]">Title</th>

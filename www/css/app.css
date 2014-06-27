@@ -47,9 +47,9 @@
     border-top: 1px solid;
 }
 
-/* Make sure the table headers have a pointer as a cursor, not a finger */
+/* Make sure the table headers have a pointer as a cursor, not a finger. */
 .sortable {
-    cursor: default;
+    cursor: pointer;
 }
 
 /* I believe that references to titles should always be italic */
