@@ -4,7 +4,7 @@ node_modules/
 bower_components/
 tmp
 .DS_Store
-.ideawww/data
+.idea
 www/data/
 tools/data/WebSearchExport20140520.txt
 tools/data/items.tsv

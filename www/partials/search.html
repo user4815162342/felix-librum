@@ -1,4 +1,4 @@
-<div id="search-controls" class="form-inline" ng-controller="sidebarController">
+<div id="search-controls" class="form-inline" ng-controller="queryController">
     <strong>Search:</strong>
     <label for="searchText" class="sr-only">Text:</label>
     <input id="searchText" class="form-control" type="text" placeHolder="Enter text to search for" ng-model="filter.text" ng-keypress="($event.keyCode == 13) && setText(filter.text)" ng-blur="setText(filter.text)">

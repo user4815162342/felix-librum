@@ -29,7 +29,7 @@ angular.module('myApp.directives', []).
               sorted: "&",
               sortDir: "&"
           },
-          // TODO: The query parameter on here overrides an apparent
+          // NOTE: The query parameter on here overrides an apparent
           // problem I had. When I change the contents of this file,
           // it was not showing the changes on reload, even when I do a 
           // Ctrl-Shift-R (force reload without cache). Watching the

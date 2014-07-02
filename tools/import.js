@@ -237,7 +237,7 @@ var parse = function(input) {
     var handleToken = function(tokenType,handler) {
         tokenizer.on(tokenType,function(value,line,info) {
             if (expect.indexOf(tokenType) === -1) {
-                error(new Error("Expected " + expect.join(", ") + " found " + token,line,info));
+                error(new Error("Expected " + expect.join(", ") + " found '" + value + "'"),line,info);
             }
             handler(value,line,info);
             

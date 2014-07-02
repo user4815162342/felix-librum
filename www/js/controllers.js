@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('myApp.controllers', [])
-    .controller('sidebarController', ['$scope', '$location', 'queryParams', 'libraryQueryFilter', function($scope, $location, queryParams, libraryQuery) {
+    .controller('queryController', ['$scope', '$location', 'queryParams', 'libraryQueryFilter', function($scope, $location, queryParams, libraryQuery) {
         // this is a list of the possible values for filter field.
         var fields = $scope.fields = libraryQuery.fields;
         // this is the filters passed in the URI.
@@ -42,16 +42,10 @@ angular.module('myApp.controllers', [])
         $scope.$watch(function() {
             return queryParams.urlParams()
         },function(newVal) {
-            $scope.filter.field = queryParams.filter.field(),
-            $scope.filter.text = queryParams.filter.text()
+            $scope.filter.field = queryParams.filter.field();
+            $scope.filter.text = queryParams.filter.text();
+            setCurrentFilter($scope.filter.field);
         })
-        
-        // 
-        $scope.checkEnter = function(event) {
-            console.log(event.keyCode == 13);
-            console.log((event.keyCode == 13) && $scope.setText($scope.filter.text));
-            console.log(event);
-        }
         
     }])
     .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,pageLengths) {
@@ -160,6 +154,7 @@ angular.module('myApp.controllers', [])
         $scope.setPageLength = function(value) {
             queryParams.page.length(value);
         }
+        
         
 
     }])
