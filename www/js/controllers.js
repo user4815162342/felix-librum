@@ -48,7 +48,7 @@ angular.module('myApp.controllers', [])
         })
         
     }])
-    .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', '$http', 'libraryQueryFilter', 'pageLengths', function($scope,queryParams,orderBy,$http,libraryQuery,pageLengths) {
+    .controller('itemsController', ['$scope', 'queryParams', 'orderByFilter', 'dataAccess', 'libraryQueryFilter', 'pageLengths', function($scope,queryParams,orderBy,dataAccess,libraryQuery,pageLengths) {
         
         // initialize data.
         $scope.loading = true;
@@ -68,52 +68,38 @@ angular.module('myApp.controllers', [])
         * stay updated to the changed $location. */
 
         var refreshData = function() {
-            // The parameter is added to make sure we don't reload cached
-            // data after changes are made. 
-            $http.get('data/items.json?7').success(function(data) {
-                refreshData = function(cb) {
-                    $scope.$evalAsync(function() {
-                        // get data into the scope
-                        var sort = $scope.sort = queryParams.sort();
-                        var pageLength = $scope.pageLength = queryParams.page.length();
-                        var pageIndex = $scope.pageIndex = queryParams.page.index();
-                        var filterField = $scope.filterField = queryParams.filter.field();
-                        var filterText = $scope.filterText = queryParams.filter.text();
-                        
-                        // run filter
-                        var result = libraryQuery(data,filterField,filterText);
-                        var filteredTotal = $scope.filteredTotal = result.length;
-                        // run sort
-                        result = orderBy(result, sort);
-                        // run pagination.
-                        $scope.filteredItems = result.slice((pageIndex - 1) * pageLength,pageIndex * pageLength);
-                        if (filteredTotal == $scope.total) {
-                            $scope.loadingStatus = "The library has " + filteredTotal + " items in its catalog.";
-                        } else if (filteredTotal) {
-                            $scope.loadingStatus = "" + filteredTotal + " items match your query.";
-                        } else {
-                            $scope.loadingStatus = "No items match your query.";
-                        }
-                        $scope.loading = false;
-                    });
-                }
-                $scope.total = data.length;
-                refreshData();
-            }).error(function(data,status,headers,config) {
-                if (status === 404) {
-                    // we've simply got no data. But don't override the get
-                    // in case someone puts some in.
-                    $scope.sort = queryParams.sort();
-                    $scope.pageLength = queryParams.page.length();
-                    $scope.pageIndex = queryParams.page.index();
-                    $scope.filterField = queryParams.filter.field();
-                    $scope.filterText = queryParams.filter.text();
-                    $scope.filteredTotal = 0;
-                    $scope.filteredItems = [];
-                    $scope.total = 0;
-                    $scope.loadingStatus = "The library has no items in its catalog.";
+            dataAccess.getItems(function(err,data) {
+                if (!err) {
+                    refreshData = function(cb) {
+                        $scope.$evalAsync(function() {
+                            // get data into the scope
+                            var sort = $scope.sort = queryParams.sort();
+                            var pageLength = $scope.pageLength = queryParams.page.length();
+                            var pageIndex = $scope.pageIndex = queryParams.page.index();
+                            var filterField = $scope.filterField = queryParams.filter.field();
+                            var filterText = $scope.filterText = queryParams.filter.text();
+                            
+                            // run filter
+                            var result = libraryQuery(data,filterField,filterText);
+                            var filteredTotal = $scope.filteredTotal = result.length;
+                            // run sort
+                            result = orderBy(result, sort);
+                            // run pagination.
+                            $scope.filteredItems = result.slice((pageIndex - 1) * pageLength,pageIndex * pageLength);
+                            if (filteredTotal == $scope.total) {
+                                $scope.loadingStatus = "The library has " + filteredTotal + " items in its catalog.";
+                            } else if (filteredTotal) {
+                                $scope.loadingStatus = "" + filteredTotal + " items match your query.";
+                            } else {
+                                $scope.loadingStatus = "No items match your query.";
+                            }
+                            $scope.loading = false;
+                        });
+                    }
+                    $scope.total = data.length;
+                    refreshData();
                 } else {
-                    $scope.loadingStatus = "An error occurred retrieving the data (" + status + "). Please refresh to try again.";
+                    $scope.loadingStatus = err.message;
                 }
             });
         }
@@ -158,14 +144,18 @@ angular.module('myApp.controllers', [])
         
 
     }])
-  .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', '$http', 'filterFilter', function($scope,$routeParams,queryParams,$http,filter) {
+  .controller('itemDetailController', ['$scope', '$routeParams', 'queryParams', 'dataAccess', 'filterFilter', function($scope,$routeParams,queryParams,dataAccess,filter) {
         // this is a function that helps rebuild the URL for links.
         $scope.urlParams = queryParams.urlParams;
         $scope.itemKey = $routeParams.itemKey;
         // give it a blank to work with.
         $scope.item = {};
-        $http.get('data/' + $scope.itemKey + '.json').success(function(data) {
-          $scope.item = data;
+        dataAccess.getItem($scope.itemKey,function(err,data) {
+            if (err) {
+                console.log(err);
+            } else {
+                $scope.item = data;
+            }
         });
 
         // This sets it up so that a change in the search field will

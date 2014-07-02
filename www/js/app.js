@@ -2,6 +2,7 @@
 
 
 /* 
+ * TODO: Still need e2e testing.
  * TODO: Need a better name for the application. Suggestions:
  *  - SimpleCat
  *  - CatBird

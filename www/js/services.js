@@ -84,4 +84,31 @@ angular.module('myApp.services', []).
           }
               
       }
-  }]);
+  }]).
+    factory('dataAccess',["$http",function($http) {
+        return {
+            getItems: function(cb) {
+                // The parameter is added to make sure we don't reload cached
+                // data after changes are made. 
+                $http.get('data/items.json?7').success(function(data) {
+                    cb(null,data);
+                }).error(function(data,status,headers,config) {
+                    if (status === 404) {
+                        // Just assume that no data has been uploaded yet,
+                        // and return success, but with an empty array.
+                        cb(null,[]);
+                    } else {
+                        cb(new Error("An error occurred retrieving the items (" + status + "). Please refresh to try again."));
+                    }
+                });
+            },
+            
+            getItem: function(id,cb) {
+                $http.get('data/' + id + '.json').success(function(data) {
+                    cb(null,data);
+                }).error(function(data,status,headers,config) {
+                    cb(new Error("An error occurred retrieving item " + id + " (" + status + "). Please refresh to try again."));
+                });
+            }
+        }
+    }]);
