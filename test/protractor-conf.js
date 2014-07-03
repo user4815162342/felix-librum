@@ -4,9 +4,16 @@ exports.config = {
   specs: [
     'e2e/*.js'
   ],
-
-  capabilities: {
+  
+  /*multiCapabilities: [{
     'browserName': 'chrome'
+  },{
+    'browserName': 'firefox'
+  }
+  ],*/
+  
+  capabilities: {
+      'browserName': 'firefox'
   },
 
   baseUrl: 'http://localhost:8000/www/',
