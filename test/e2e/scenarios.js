@@ -25,18 +25,6 @@ describe('my app', function() {
        } \
   }])";
 
-  // This is missing functionality in protractor, as far as I'm concerned.
-  // A way to sleep so you can see what's going on.  
-  var sleep = function(ms) {
-     var doneSleeping = false;
-     browser.wait(function() {
-         return doneSleeping;
-     },ms + 100,"This was an intentional pause, don't worry that it timed out.");
-     setTimeout(function() {
-         doneSleeping = true;
-     },ms);
-     
-  }
 
   browser.addMockModule('myApp.services',mockScript);
   browser.get('index.html');
@@ -62,7 +50,12 @@ describe('my app', function() {
         element(by.id("searchText")).sendKeys("galaxy\n");
         expect(element(by.id("status")).getText()).toMatch("2 items match your query.");
         element(by.id("searchText")).clear();
-        element(by.id("searchText")).sendKeys("Oolon\t");
+        element(by.id("searchText")).sendKeys("Oolon");
+        // lose focus on that searchText...
+        // NOTE: This doesn't work in Chrome if we're running the tests
+        // in separate browsers in parallel. That's why we need to run 
+        // them in series.
+        element(by.id("status")).click();
         expect(element(by.id("status")).getText()).toMatch("No items match your query.");
         element(by.id("search-field")).click();
         element.all(by.css("#search-field-choice ul li a")).get(1).click();
@@ -71,10 +64,10 @@ describe('my app', function() {
     
     it('should allow the user to page through the results', function() {
         browser.get("index.html#/list");
-        element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(val) {
+        element.all(by.css('tbody tr td a')).get(0).getText().then(function(val) {
             // Now, click on the page 2.
             element.all(by.css('#paginator ul li a')).get(3).click();
-            expect(element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText()).not.toEqual(val);
+            expect(element.all(by.css('tbody tr td a')).get(0).getText()).not.toEqual(val);
         });
     });
     
@@ -106,16 +99,16 @@ describe('my app', function() {
     
     it("should sort the items when column headers are clicked", function() {
         browser.get("index.html#/list");
-        element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(unsortedVal) {
+        element.all(by.css('tbody tr td a')).get(0).getText().then(function(unsortedVal) {
             element.all(by.css("thead tr th")).get(0).click();
-            element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(sortedAscVal) {
+            element.all(by.css('tbody tr td a')).get(0).getText().then(function(sortedAscVal) {
                 expect(sortedAscVal).not.toEqual(unsortedVal);
                 element.all(by.css("thead tr th")).get(0).click();
-                element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(sortedDescVal) {
+                element.all(by.css('tbody tr td a')).get(0).getText().then(function(sortedDescVal) {
                     expect(sortedDescVal).not.toEqual(sortedAscVal);
                     expect(sortedDescVal).not.toEqual(unsortedVal);
                     element.all(by.css("thead tr th")).get(0).click();
-                    expect(element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText()).toEqual(unsortedVal);
+                    expect(element.all(by.css('tbody tr td a')).get(0).getText()).toEqual(unsortedVal);
                 });
             });
         });
@@ -154,19 +147,20 @@ describe('my app', function() {
         
     });
     
-    // The mock module doesn't work with the navigation, so we'll just have
+    // The mock module doesn't seem to work with the navigation, so we'll just have
     // to go with the actual data, just *don't* hardcode value expectations.
     it("should change the view when the URL is changed and navigating backwards.",function() {
         browser.removeMockModule('myApp.services',mockScript);
         browser.get("index.html#/list");
-        element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(unsortedVal) {
-            browser.get("index.html#/list?sort=+title");
-            element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText().then(function(sortedVal) {
+        element.all(by.css('tbody tr td a')).get(0).getText().then(function(unsortedVal) {
+            browser.get("index.html#/list?sort=+title"); 
+            element.all(by.css('tbody tr td a')).get(0).getText().then(function(sortedVal) {
                 expect(sortedVal).not.toEqual(unsortedVal);
+                // do some navigating in history.
                 browser.navigate().back();
-                expect(element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText()).toEqual(unsortedVal);
+                expect(element.all(by.css('tbody tr td a')).get(0).getText()).toEqual(unsortedVal);
                 browser.navigate().forward();
-                expect(element(by.css('tbody tr')).element(by.css('td')).element(by.css('a')).getText()).toEqual(sortedVal);
+                expect(element.all(by.css('tbody tr td a')).get(0).getText()).toEqual(sortedVal);
             })
         });
         
