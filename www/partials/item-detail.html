@@ -30,7 +30,7 @@
         </div>
         <div id="imprint" ng-show="item.publisher || item.publishCity || item.publishYear">
             <span>{{item.publishCity}}</span><span ng-show="item.publisher">:&nbsp;{{item.publisher}}</span><span>&nbsp;{{item.publishYear}}</span></div>
-        <div id="ar">
+        <div id="ar" ng-show="item.arQuizNumber">
             <dl>
                 <dt>AR Quiz:</dt>
                 <!-- TODO: May need to confirm the legality of posting 
