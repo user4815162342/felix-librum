@@ -19,9 +19,11 @@
 
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000",
+    
+    "stop": "pkill -SIGINT -f \"node.+http-server.+-p 8000\"",
 
     "pretest": "npm install",
-    "test": "karma start test/karma.conf.js --single-run; npm start & npm run protractor",
+    "test": "karma start test/karma.conf.js --single-run; http-server -a localhost -p 8000 --silent & npm run protractor; npm stop",
     "test-continuous": "karma start test/karma.conf.js",
 
     "preupdate-webdriver": "npm install",

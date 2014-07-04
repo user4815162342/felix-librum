@@ -2,8 +2,6 @@
 
 
 /* 
- * TODO: Need a command for npm stop, so the tester can stop the
- * server later.
  * TODO: Need a better name for the application. Suggestions:
  *  - SimpleCat
  *  - CatBird
