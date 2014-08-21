@@ -7,7 +7,7 @@
 // In this case it is a simple value service.
 angular.module('myApp.services', []).
   value('version', '0.1').
-  value('name', 'Library').
+  value('name', 'Felix Librum').
   value('defaultPageLength',10).
   value('defaultSearchField','title').
   value('pageLengths',[10,25,50,100]).

@@ -2,15 +2,6 @@
 
 
 /* 
- * TODO: Need a better name for the application. Suggestions:
- *  - SimpleCat
- *  - CatBird
- *  - SimpleOPAC
- *  - OPACBird
- *  - LibraryCat
- *  - BirdCat
- *  - SmallCat
- *  - LibraryKitty.
  * TODO: Need to figure out what those unknown fields are. (They
  * contain no data, so I guess the answer is stuck on the machine at
  * school)
