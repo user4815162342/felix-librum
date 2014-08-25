@@ -87,10 +87,30 @@ angular.module('myApp.services', []).
   }]).
     factory('dataAccess',["$http",function($http) {
         return {
-            getItems: function(cb) {
+            getItems: function(onprogress,cb) {
+                if (arguments.length === 1) {
+                    cb = onprogress;
+                    onprogress = function() {};
+                }
+                
+                // onprogress is actually not available with http.get, but
+                // i'm going to mimic it for now.
+                var progress = 0;
+                onprogress(progress);
+                var timer = setInterval(function() {
+                    if (progress < 99) {
+                        progress += 2;
+                        onprogress(progress);
+                    } else {
+                        clearInterval(timer);
+                    }
+                },250);
+                
                 // The parameter is added to make sure we don't reload cached
                 // data after changes are made. 
-                $http.get('data/items.json?7').success(function(data) {
+                $http.get('data/items.json.gz?9').success(function(data) {
+                    clearInterval(timer);
+                    onprogress(100);
                     cb(null,data);
                 }).error(function(data,status,headers,config) {
                     if (status === 404) {

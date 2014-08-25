@@ -2,6 +2,7 @@
 
 
 /* 
+ * TODO: Need to document the fact that the items file must be gzipped.
  * TODO: Need to figure out what those unknown fields are. (They
  * contain no data, so I guess the answer is stuck on the machine at
  * school)

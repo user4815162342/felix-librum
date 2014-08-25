@@ -52,6 +52,7 @@ angular.module('myApp.controllers', [])
         
         // initialize data.
         $scope.loading = true;
+        $scope.progress = 0;
         $scope.loadingStatus = "Loading Data...";
         $scope.pageLengths = pageLengths;
         // this is a function that helps rebuild the URL for writing links in the template.
@@ -68,7 +69,11 @@ angular.module('myApp.controllers', [])
         * stay updated to the changed $location. */
 
         var refreshData = function() {
-            dataAccess.getItems(function(err,data) {
+            dataAccess.getItems(function(newProgress) {
+                $scope.$evalAsync(function() {
+                    $scope.progress = newProgress;
+                });
+            },function(err,data) {
                 if (!err) {
                     refreshData = function(cb) {
                         $scope.$evalAsync(function() {
