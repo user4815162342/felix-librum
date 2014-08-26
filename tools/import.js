@@ -1,4 +1,6 @@
 #!/usr/bin/node
+var zlib = require("zlib");
+
 /*
  * This script loads a file called 'tools/data/items.tsv' and creates 
  * files in the 'www/data' directory which can be used by the web application. 
@@ -40,11 +42,11 @@
  * 
  * ## Output ##
  * 
- * Output files are formatted as JSON. There are five large files, which
- * contain arrays of objects, and a separate file for each item which
- * contains the object itself. 
+ * Output files are formatted as JSON, and gzipped to make downloading
+ * faster. There are five large files, which contain arrays of objects, 
+ * and a separate file for each item which contains the object itself. 
  * 
- * www/data/items.json -- contains all data for all items in one file
+ * www/data/items.json.gz -- contains all data for all items in one file
  * for convenience. 
  * 
  * NOTE: The following files are no longer written, as they were not
@@ -468,6 +470,43 @@ var Database = function() {
             });
         }
         
+        var queueCompress = function(filename,skipLog) {
+            queue.push(function() {
+                if (!skipLog) {
+                    console.log("Zipping " + filename);
+                }
+                var gzip = zlib.createGzip();
+                var inp = fs.createReadStream(path.join(outputDir,filename + ".json"));
+                var out = fs.createWriteStream(path.join(outputDir,filename + ".json.gz"));
+                inp.pipe(gzip).pipe(out);
+                gzip.on('error',function(err) {
+                    console.error("Error in gzip");
+                    done(err);
+                });
+                inp.on('error',function(err) {
+                    console.error("Error in input");
+                    done(err);
+                });
+                out.on('error',function(err) {
+                    console.error("Error in output");
+                    done(err);
+                });
+                out.on('finish',function() {
+                    if (!skipLog) {
+                        console.log(filename + " zipped.");
+                        console.log("Deleting uncompressed " + filename);
+                    }
+                    fs.unlink(path.join(outputDir,filename + ".json"),function(err) {
+                        if (err) {
+                            console.error(err);
+                            done(err);
+                        } else {
+                            process.nextTick(processQueue);
+                        }
+                    });
+                })
+            });
+        }
         var processQueue = function() {
             if (queue.length) {
                 queue.shift()();
@@ -477,6 +516,7 @@ var Database = function() {
         }
         
         queueWrite("Items","items",items);
+        queueCompress("items");
         // NOTE: These aren't being saved anymore, because I don't
         // actually need these. The speed detriments were in the 
         // UI layer. 
@@ -492,6 +532,7 @@ var Database = function() {
         });
         items.forEach(function(item) {
             queueWrite("Item " + item.key,item.key,item,true);
+            //queueCompress(item.key,true);
         });
         queue.push(function() {
             console.log("Detail files saved.");
