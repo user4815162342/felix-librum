@@ -19,6 +19,11 @@ angular.module('myApp.directives', []).
           elm.text(name + ": v" + version);
       }
   }]).
+  directive('libraryName', ['libraryName', function(name) {
+      return function(scope,elm,attrs) {
+          elm.text(name);
+      }
+  }]).
   directive('sortableColumn', function($templateCache) {
       return {
           /* NOTE: This 'replace' is marked as deprecated in Angular

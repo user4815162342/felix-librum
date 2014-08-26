@@ -2,7 +2,7 @@
 
 
 /* 
- * TODO: Need to document the fact that the items file must be gzipped.
+ * 
  * TODO: Need to figure out what those unknown fields are. (They
  * contain no data, so I guess the answer is stuck on the machine at
  * school)
@@ -17,6 +17,10 @@
  * TODO: Need to clean up the original data so that this stuff looks
  * better.
  * 
+ * TODO: Move over to gulp for building, and possibly the import tool
+ * as well.
+ * TODO: Concatenate/Compress/minify the JavaScript/CSS to allow to reduce the size
+ * of this whole thing.
  * */
 
 /*
