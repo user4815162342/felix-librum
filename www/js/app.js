@@ -1,23 +1,7 @@
 'use strict';
 
 
-/* 
- * 
- * TODO: Need to figure out what those unknown fields are. (They
- * contain no data, so I guess the answer is stuck on the machine at
- * school)
- * TODO: If the unknown fields aren't important, I need publisher,
- * publishCity and publishYear from the database. I probably need
- * a better export system.
- * TODO: Check the title "Our Star--The Sun" by Estalella in the 
- * original database. There's a charactere encoding issue in the
- * second authors name. Attempting to reload the tsv file in various
- * encodings does not fix this, verify whether this is in the
- * original data, the output, or something else I did.
- * TODO: Need to clean up the original data so that this stuff looks
- * better.
- * 
- * TODO: Move over to gulp for building, and possibly the import tool
+/* TODO: Move over to gulp for building, and possibly the import tool
  * as well.
  * TODO: Concatenate/Compress/minify the JavaScript/CSS to allow to reduce the size
  * of this whole thing.

@@ -6,5 +6,4 @@ tmp
 .DS_Store
 .idea
 www/data/
-tools/data/WebSearchExport20140520.txt
 tools/data/items.tsv
