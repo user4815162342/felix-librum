@@ -11,7 +11,11 @@ describe('my app', function() {
   var mock = require("../mock/items");
   var mockScript = "angular.module('myApp.services').factory('dataAccess',['$timeout',function($timeout) { \
        return {\
-            getItems: function(cb) { \
+            getItems: function(onprogress,cb) { \
+                if (arguments.length === 1) {\
+                    cb = onprogress;\
+                    onprogress = function() {};\
+                }\
                 $timeout(function() {\
                     cb(null," + JSON.stringify(mock.items) + "); \
                 },1000);\
@@ -39,8 +43,7 @@ describe('my app', function() {
     // back to the beginning.
 
     it('should render itemsController when user navigates to /list', function() {
-      expect(element.all(by.css('[ng-view] div')).first().getText()).
-        toMatch(/The library has .* items in its catalog/);
+      expect(element(by.id("status")).getText()).toMatch(/The library has .* items in its catalog/);
         // also make sure it's rendering content.
       expect(element.all(by.css('tbody tr')).count()).toBe(10);
     });
