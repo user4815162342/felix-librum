@@ -3,9 +3,9 @@
 /* jasmine specs for services go here */
 
 describe('service', function() {
-  beforeEach(module('myApp.services'));
+  beforeEach(module('felixLibrum.services'));
   // Need this to mock $location.
-  beforeEach(module('myApp.mock.tools'));
+  beforeEach(module('felixLibrum.mock.tools'));
    
 
 

@@ -9,7 +9,7 @@ describe('my app', function() {
   // dataAccess into a separate service, but that's probably a good
   // thing anyway.
   var mock = require("../mock/items");
-  var mockScript = "angular.module('myApp.services').factory('dataAccess',['$timeout',function($timeout) { \
+  var mockScript = "angular.module('felixLibrum.services').factory('dataAccess',['$timeout',function($timeout) { \
        return {\
             getItems: function(onprogress,cb) { \
                 if (arguments.length === 1) {\
@@ -30,7 +30,7 @@ describe('my app', function() {
   }])";
 
 
-  browser.addMockModule('myApp.services',mockScript);
+  browser.addMockModule('felixLibrum.services',mockScript);
   browser.get('index.html');
 
   it('should automatically redirect to /list when location hash/fragment is empty', function() {
@@ -153,7 +153,7 @@ describe('my app', function() {
     // The mock module doesn't seem to work with the navigation, so we'll just have
     // to go with the actual data, just *don't* hardcode value expectations.
     it("should change the view when the URL is changed and navigating backwards.",function() {
-        browser.removeMockModule('myApp.services',mockScript);
+        browser.removeMockModule('felixLibrum.services',mockScript);
         browser.get("index.html#/list");
         element.all(by.css('tbody tr td a')).get(0).getText().then(function(unsortedVal) {
             browser.get("index.html#/list?sort=+title"); 

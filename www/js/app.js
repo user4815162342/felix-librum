@@ -14,13 +14,13 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('felixLibrum', [
   'ngRoute',
   'ui.bootstrap',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers',
+  'felixLibrum.filters',
+  'felixLibrum.services',
+  'felixLibrum.directives',
+  'felixLibrum.controllers',
   'felixLibrum.site'
 ]).
 config(['$routeProvider', function($routeProvider) {

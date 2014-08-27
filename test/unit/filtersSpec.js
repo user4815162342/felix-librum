@@ -3,8 +3,8 @@
 /* jasmine specs for filters go here */
 
 describe('filter', function() {
-  beforeEach(module('myApp.filters'));
-  beforeEach(module('myApp.mock.data'));
+  beforeEach(module('felixLibrum.filters'));
+  beforeEach(module('felixLibrum.mock.data'));
 
   describe('titleMatch', function() {
       var test = [

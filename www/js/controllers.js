@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', [])
+angular.module('felixLibrum.controllers', [])
     .controller('queryController', ['$scope', '$location', 'queryParams', 'libraryQueryFilter', function($scope, $location, queryParams, libraryQuery) {
         // this is a list of the possible values for filter field.
         var fields = $scope.fields = libraryQuery.fields;

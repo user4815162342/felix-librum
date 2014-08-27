@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('myApp.filters', []).
+angular.module('felixLibrum.filters', []).
     filter('titleMatch', function() {
         return function(item,queryText) {
             if (!queryText) {

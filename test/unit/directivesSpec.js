@@ -3,8 +3,8 @@
 /* jasmine specs for directives go here */
 
 describe('directives', function() {
-  beforeEach(module('myApp'));
-  beforeEach(module('myApp.directives'));
+  beforeEach(module('felixLibrum'));
+  beforeEach(module('felixLibrum.directives'));
   describe('app-version', function() {
     it('should print current version', function() {
       module(function($provide) {

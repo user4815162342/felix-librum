@@ -6,12 +6,12 @@
 
 describe('controllers', function(){
     // Need to load dependencies as well...  
-  beforeEach(module('myApp'));
-  beforeEach(module('myApp.filters'));
-  beforeEach(module('myApp.services'));
-  beforeEach(module('myApp.controllers'));
-  beforeEach(module('myApp.mock.data'));
-  beforeEach(module('myApp.mock.tools'));
+  beforeEach(module('felixLibrum'));
+  beforeEach(module('felixLibrum.filters'));
+  beforeEach(module('felixLibrum.services'));
+  beforeEach(module('felixLibrum.controllers'));
+  beforeEach(module('felixLibrum.mock.data'));
+  beforeEach(module('felixLibrum.mock.tools'));
   
   
   // need some base scope to work with...

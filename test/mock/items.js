@@ -708,7 +708,7 @@
     if (typeof angular !== "undefined") {
         // we are running in angular in a browser, and I want an angular module.
         // This is true when running the karma unit tests.
-        angular.module('myApp.mock.data', []).
+        angular.module('felixLibrum.mock.data', []).
         value('mockItems',items).
         value('mockItem20',item20);
     } else if ((typeof module !== "undefined") && module.exports) {

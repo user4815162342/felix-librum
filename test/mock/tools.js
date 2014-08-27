@@ -1,4 +1,4 @@
-angular.module('myApp.mock.tools', []).value('$location', {
+angular.module('felixLibrum.mock.tools', []).value('$location', {
       search: function() {
           //console.log("$location.search",arguments[0],arguments[1]);
           if (arguments.length) {
