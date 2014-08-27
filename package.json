@@ -1,7 +1,7 @@
 {
   "name": "felix-librum",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A starter project for AngularJS",
   "repository": "https://github.com/angular/angular-seed",
   "license": "MIT",
@@ -16,26 +16,18 @@
   },
   "scripts": {
     "postinstall": "bower install",
-
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000",
-    
     "stop": "pkill -SIGINT -f \"node.+http-server.+-p 8000\"",
-
     "pretest": "npm install",
     "test": "karma start test/karma.conf.js --single-run; http-server -a localhost -p 8000 --silent & npm run protractor; npm stop",
     "test-continuous": "karma start test/karma.conf.js",
-
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
-
     "protractor": "protractor test/protractor-conf.js --browser firefox; protractor test/protractor-conf.js --browser chrome",
-    
     "predebug": "npm install",
     "debug": "http-server -a localhost -p 8000 & node test/browse.js",
-    
     "browse": "node test/browse.js",
-
     "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + cat('www/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'www/index-async.html');\""
   }
 }
