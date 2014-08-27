@@ -155,6 +155,8 @@ describe('my app', function() {
     it("should change the view when the URL is changed and navigating backwards.",function() {
         browser.removeMockModule('felixLibrum.services',mockScript);
         browser.get("index.html#/list");
+        // NOTE: If this one fails, it's probably because you don't have any data.
+        // Use the mock data until you can get some.
         element.all(by.css('tbody tr td a')).get(0).getText().then(function(unsortedVal) {
             browser.get("index.html#/list?sort=+title"); 
             element.all(by.css('tbody tr td a')).get(0).getText().then(function(sortedVal) {
