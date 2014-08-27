@@ -7,3 +7,4 @@ tmp
 .idea
 www/data/
 tools/data/items.tsv
+www/js/site.js

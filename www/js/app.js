@@ -20,7 +20,8 @@ angular.module('myApp', [
   'myApp.filters',
   'myApp.services',
   'myApp.directives',
-  'myApp.controllers'
+  'myApp.controllers',
+  'felixLibrum.site'
 ]).
 config(['$routeProvider', function($routeProvider) {
     // we set reloadOnSearch to false to prevent refreshing of the view when we update the URL. Pretty much all of the

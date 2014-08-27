@@ -8,8 +8,6 @@
 angular.module('myApp.services', []).
   value('version', '0.1').
   value('name', 'Felix Librum').
-  // TODO: Change the following to your library name.
-  value('libraryName','Your Library').
   value('defaultPageLength',10).
   value('defaultSearchField','title').
   value('pageLengths',[10,25,50,100]).
