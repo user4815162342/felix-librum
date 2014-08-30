@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: Need to confirm that it's okay for us to link to AR.
 
 /* TODO: Move over to gulp for building, and possibly the import tool
  * as well.
