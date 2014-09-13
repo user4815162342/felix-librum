@@ -33,11 +33,7 @@
         <div id="ar" ng-show="item.arQuizNumber">
             <dl>
                 <dt>AR Quiz:</dt>
-                <!-- TODO: May need to confirm the legality of posting 
-                a link to their site, and if there's some
-                way we can get to the page without the survey. -->
-                <dd><a href="http://www.arbookfind.com/bookdetail.aspx?q={{item.arQuizNumber}}&l=EN" 
-                    title="This link takes you to information about this title on the AR Bookfinder website. The first time you visit AR Bookfinder, you will be redirected to a welcome page with a one-question survey about your use of that site. You only have to answer this once. Upon answering the question, you will need to come back to this page and click on this link again to see the information. Further clicks on links to that site will not ask you for that information." target="_blank">{{item.arQuizNumber}}</a></dd>
+                <dd>{{item.arQuizNumber}}</dd>
                 <dt>Interest:</dt>
                 <dd>{{item.arInterestLevel}}</dd>
                 <dt>Grade:</dt>
